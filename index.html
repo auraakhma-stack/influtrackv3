@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InfluTrack — Affiliate Management Platform</title>
+<style>
+:root{--ink:#172033;--muted:#6f788a;--line:#e8eaf0;--bg:#f7f8fc;--white:#fff;--accent:#6c5ce7;--accent2:#8b7cf6;--green:#20a779;--orange:#f59e0b;--red:#e05252}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+button{font:inherit;cursor:pointer;border:0}.app{display:flex;min-height:100vh}.side{width:245px;background:#fff;border-right:1px solid var(--line);padding:26px 18px;position:fixed;inset:0 auto 0 0}.logo{font-weight:800;font-size:23px;margin:0 12px 5px}.logo span{color:var(--accent)}.tag{font-size:11px;color:var(--muted);margin:0 12px 28px}.nav button{display:flex;width:100%;padding:12px 14px;margin:4px 0;border-radius:10px;background:transparent;color:#60697a;text-align:left;gap:12px}.nav button.active,.nav button:hover{background:#f0eeff;color:var(--accent);font-weight:700}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 36px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.eyebrow{font-size:13px;color:var(--muted)}h1{font-size:28px;margin:4px 0}.profile{display:flex;align-items:center;gap:10px}.avatar{width:40px;height:40px;border-radius:50%;background:#e9e5ff;color:var(--accent);display:grid;place-items:center;font-weight:800}.hero{background:linear-gradient(110deg,#6656d9,#8a7af1);color:white;border-radius:18px;padding:25px 28px;display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:22px}.hero h2{margin:0 0 7px;font-size:21px}.hero p{margin:0;opacity:.85;font-size:14px}.hero button{background:white;color:var(--accent);padding:11px 17px;border-radius:10px;font-weight:700;white-space:nowrap}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;margin:8px 0}.trend{font-size:12px;color:var(--green)}.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap}.panel h3{margin:0;font-size:16px}.muted{color:var(--muted);font-size:12px}.campaign{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.campaign:last-child{border-bottom:0}.campname{font-weight:700;font-size:14px}.badge{font-size:11px;padding:5px 8px;border-radius:20px;background:#eaf8f2;color:var(--green);white-space:nowrap}.badge.orange{background:#fff5df;color:#b77900}.badge.purple{background:#f0eeff;color:var(--accent)}.mini{margin-top:7px;font-size:12px;color:var(--muted)}.score{text-align:center;padding:10px}.circle{width:112px;height:112px;border-radius:50%;background:conic-gradient(var(--accent) 0 87%,#ececf2 87%);display:grid;place-items:center;margin:8px auto 12px}.circle:after{content:"87";width:82px;height:82px;background:white;border-radius:50%;display:grid;place-items:center;font-size:25px;font-weight:800}.menu-section{display:none}.menu-section.show{display:block}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:13px 8px;border-bottom:1px solid var(--line);text-align:left}.table th{color:var(--muted);font-size:11px;text-transform:uppercase}.table tr.me td{background:#f5f3ff;font-weight:700}.primary{background:var(--accent);color:white;padding:10px 15px;border-radius:9px;font-weight:700}.secondary{background:#f1efff;color:var(--accent);padding:9px 13px;border-radius:9px;font-weight:700}.small{padding:6px 10px;font-size:12px}.modal{display:none;position:fixed;inset:0;background:#0005;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.open{display:flex}.modalbox{background:white;width:min(560px,100%);border-radius:16px;padding:24px;max-height:90vh;overflow:auto}.modalbox h2{margin-top:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700}.field input,.field select{padding:10px;border:1px solid #ddd;border-radius:8px}.actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.congrats{background:linear-gradient(110deg,#fff7e0,#ffeec2);border:1px solid #f7d98b;color:#7a5200;border-radius:14px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px}.congrats .ic{font-size:30px}.congrats b{font-size:15px}.congrats div div{font-size:12.5px;margin-top:3px}
+.info{background:#f5f3ff;border:1px dashed #cfc8ff;border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.55;margin-bottom:18px}.info b{color:var(--accent)}.info ul{margin:6px 0 0;padding-left:18px}
+.briefsec{margin:14px 0}.briefsec h4{margin:0 0 6px;font-size:13px}.briefsec ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6}.code{background:#f0eeff;color:var(--accent);padding:2px 7px;border-radius:6px;font-weight:700;font-family:ui-monospace,monospace;font-size:12px}
+.sel{padding:9px 12px;border:1px solid #ddd;border-radius:8px;font:inherit;font-size:13px;background:#fff}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.chartbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.chartbox h4{margin:0 0 2px;font-size:14px}.chartbox .muted{margin-bottom:8px}.chartbox svg{width:100%;height:auto;display:block}.chartbox.wide{grid-column:1/-1}
+.bar{height:9px;background:#ececf2;border-radius:6px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
+.ms{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.ms:last-child{border-bottom:0}.ms .dot{width:26px;height:26px;border-radius:50%;background:#ececf2;display:grid;place-items:center;font-size:12px;flex:none}.ms.done .dot{background:#eaf8f2;color:var(--green);font-weight:800}
+.calc td:last-child,.calc th:last-child{text-align:right}.calc tr.total td{font-weight:800;border-top:2px solid var(--ink);background:#faf9ff}
+@media(max-width:900px){.side{width:190px}.main{margin-left:190px;width:calc(100% - 190px);padding:22px}.cards{grid-template-columns:1fr 1fr}.grid,.charts{grid-template-columns:1fr}}@media(max-width:650px){.side{display:none}.main{margin:0;width:100%}.cards{grid-template-columns:1fr}.hero{align-items:flex-start;gap:15px;flex-direction:column}}
+/* ===== TEMA WARNA-WARNI ===== */
+body{background:linear-gradient(160deg,#fdf2f8 0%,#eef2ff 45%,#ecfeff 100%) fixed}
+.side{background:linear-gradient(180deg,#2e1065 0%,#5b21b6 55%,#be185d 100%);border:0;box-shadow:4px 0 24px #5b21b622}
+.logo{color:#fff}.logo span{color:#fcd34d}.tag{color:#ddd6fe}
+.nav button{color:#ede9fe}.nav button.active,.nav button:hover{background:rgba(255,255,255,.2);color:#fff}
+h1{background:linear-gradient(90deg,#4f46e5,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.avatar{background:linear-gradient(135deg,#f97316,#ec4899);color:#fff}
+.hero{background:linear-gradient(110deg,#4f46e5,#a855f7 55%,#f97316);box-shadow:0 10px 30px #a855f733}.hero button{color:#c2410c}
+.cards .card{border:0;border-top:4px solid #8b5cf6;background:linear-gradient(160deg,#ede9fe,#fff 70%);box-shadow:0 4px 18px #1720330d}
+.cards .card:nth-child(2){border-top-color:#14b8a6;background:linear-gradient(160deg,#ccfbf1,#fff 70%)}
+.cards .card:nth-child(3){border-top-color:#f97316;background:linear-gradient(160deg,#ffedd5,#fff 70%)}
+.cards .card:nth-child(4){border-top-color:#ec4899;background:linear-gradient(160deg,#fce7f3,#fff 70%)}
+.cards .card:nth-child(1) .value{color:#5b21b6}.cards .card:nth-child(2) .value{color:#0f766e}.cards .card:nth-child(3) .value{color:#c2410c}.cards .card:nth-child(4) .value{color:#be185d}
+.panel{border:0;border-top:4px solid var(--c,#a78bfa);box-shadow:0 4px 18px #1720330d}
+#dashboard{--c:#6366f1}#campaign{--c:#14b8a6}#performance{--c:#3b82f6}#leaderboard{--c:#f59e0b}#commission{--c:#22c55e}#evaluation{--c:#ec4899}#profile{--c:#8b5cf6}#reward{--c:#f59e0b}
+.table th{color:var(--c,#6f788a)}.table tr.me td{background:#fef3c7}
+.primary{background:linear-gradient(90deg,#6c5ce7,#ec4899);box-shadow:0 4px 12px #ec489933}
+.secondary{background:#ede9fe;color:#5b21b6}#campaign .secondary{background:#ccfbf1;color:#0f766e}#leaderboard .secondary{background:#fef3c7;color:#b45309}#evaluation .secondary{background:#fce7f3;color:#be185d}
+.info{background:#ecfeff;border-color:#67e8f9}.info b{color:#0e7490}
+.badge.purple{background:#fce7f3;color:#be185d}
+.panel.score{background:linear-gradient(180deg,#fff,#f5f3ff)}
+.circle{background:conic-gradient(#ec4899 0 87%,#ececf2 87%)}
+/* kartu penjelasan */
+.xgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.xgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.xcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px #1720330d;border:1px solid var(--line)}
+.xh{background:var(--k);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14px;gap:8px}.xh span{background:rgba(255,255,255,.25);padding:3px 9px;border-radius:20px;font-size:12px;white-space:nowrap}
+.xb{padding:14px 16px;font-size:13px;line-height:1.55}.xb h5{margin:12px 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--k)}.xb h5:first-child{margin-top:0}.xb p{margin:0}.xb ul{margin:0;padding-left:18px}
+.formula{background:#f5f3ff;border-left:4px solid var(--k);border-radius:8px;padding:8px 10px;font-weight:600}
+.rwrow{display:flex;gap:10px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;margin-bottom:6px;font-size:13px;align-items:flex-start}.rwrow span{font-size:20px}
+.trend2{font-size:12px;color:#475569;background:#f8fafc;border-radius:8px;padding:8px 10px;margin-top:8px;line-height:1.5}
+.cat td:first-child{font-weight:700}.cat tr.now td{background:#fce7f3;font-weight:700}
+@media(max-width:900px){.xgrid,.xgrid3{grid-template-columns:1fr}}
+
+/* ===== v5: klaim reward, grafik garis, performance ===== */
+.rcol{display:flex;flex-direction:column;gap:18px}
+.claimbox{margin-top:16px;background:linear-gradient(110deg,#fff7e0,#ffe4b5);border:1px solid #f7d98b;border-radius:12px;padding:14px;text-align:left;color:#7a5200}
+.claimbox button{width:100%;margin-top:10px}
+.seg{display:flex;background:#f1f5f9;border-radius:9px;padding:3px;gap:2px}.seg button{background:transparent;padding:5px 10px;border-radius:7px;font-size:12px;font-weight:600;color:#64748b}.seg button.on{background:#fff;color:#4f46e5;box-shadow:0 1px 4px #0001}
+.tstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}.tstats div{background:#f8fafc;border-radius:10px;padding:8px 10px}.tstats .l{font-size:11px;color:#6f788a}.tstats .v{font-weight:800;font-size:15px}
+.lc svg{width:100%;height:auto;display:block}.lc circle{transition:r .15s}.lc circle:hover{r:7}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin-bottom:4px}.legend i{display:inline-block;width:18px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.cdesc{font-size:12px;color:#475569;margin-top:10px;padding-top:10px;border-top:1px dashed #cbd5e1;line-height:1.55}.cdesc b{color:var(--ink)}
+.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:#fff;padding:12px 16px;border-radius:12px;font-size:13px;opacity:0;transform:translateY(10px);transition:.25s;z-index:50;pointer-events:none;max-width:320px;line-height:1.5}.toast.show{opacity:1;transform:none}
+.flash{animation:flash 1.8s}@keyframes flash{0%,100%{box-shadow:0 4px 18px #1720330d}30%{box-shadow:0 0 0 5px #f59e0b99}}
+
+/* ===== v6: tambahan dari WEB SIM 3 ===== */
+:root{--soft:#f0eeff;--greensoft:#eaf8f2;--orangesoft:#fff5df;--blue:#3b82f6;--gold:#e8a317}
+html{scroll-behavior:smooth}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.side{display:flex;flex-direction:column;overflow-y:auto}
+.nav{display:flex;flex-direction:column}
+.nav button{align-items:center;font-size:14px;font-weight:500}
+.nav button .ic{width:20px;text-align:center;font-size:16px}
+.nav .count{margin-left:auto;background:#f43f5e;color:#fff;font-size:10px;font-weight:700;min-width:19px;height:19px;padding:0 5px;border-radius:20px;display:grid;place-items:center}
+.sidecard{margin-top:auto;border-radius:14px;padding:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff}
+.sidecard .t{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.sidecard .s{font-size:11px;color:#ddd6fe;margin:3px 0 9px}
+.sidecard .bar{background:rgba(255,255,255,.25);margin-top:0}
+.sidecard .bar i{background:linear-gradient(90deg,#fcd34d,#fff1b8)}
+.mnav{display:none}
+.sub{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+.mt{margin-top:18px}.stack{display:flex;flex-direction:column;gap:18px}
+.badge.gray{background:#f0f1f5;color:#6f788a}.badge.up{background:#eaf8f2;color:#16875f}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:30px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;color:#5b6475;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{border-color:#a5b4fc;color:var(--accent)}.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:20px;background:#ede9fe;color:#5b21b6}
+.pill.gold{background:#fff4d6;color:#a86f00}.pill.silver{background:#eef1f6;color:#5b6475}.pill.bronze{background:#f8e7d9;color:#8a4f1d}
+.rankchip{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:#fff4d6;color:#a86f00;margin-left:8px;white-space:nowrap}
+.rankchip.r2{background:#eef1f6;color:#5b6475}.rankchip.r3{background:#f8e7d9;color:#8a4f1d}
+.ring{--p:87;width:124px;height:124px;border-radius:50%;background:conic-gradient(#ec4899 calc(var(--p)*1%),#ececf2 0);display:grid;place-items:center;margin:10px auto 12px}
+.ring span{width:94px;height:94px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:800;letter-spacing:-.03em}
+.kpi .row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.kpi svg{width:86px;height:34px;flex:none}
+.congrats{position:relative;flex-wrap:wrap}
+.congrats .go{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.congrats .x{position:absolute;top:8px;right:12px;background:none;font-size:18px;color:#a38a3a;line-height:1;padding:2px 6px}
+.congrats.has-x .go{margin-right:18px}
+.preview{grid-column:1/-1;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:#3d3a66}
+.rcol .claimbox{margin-top:16px}
+/* ---------- Reward ---------- */
+.tierhero{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.tiercard{background:linear-gradient(120deg,#2e1065,#5b21b6 60%,#be185d);color:#fff;border-radius:18px;padding:24px 26px;position:relative;overflow:hidden}
+.tiercard:before{content:"";position:absolute;right:-50px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.tiercard>*{position:relative}
+.tiercard .big{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.tiercard .bar{background:rgba(255,255,255,.22);margin:14px 0 8px}
+.tiercard .bar>i{background:linear-gradient(90deg,#ffd76a,#fff1b8)}
+.tiercard small{opacity:.88;font-size:12.5px}
+.tierchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:20px;font-size:12px;font-weight:700}
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.step{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.step.now{border-color:var(--accent);background:#faf9ff;box-shadow:0 0 0 3px #ece8ff}
+.step .nm{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.step .pt{font-size:11px;color:var(--muted);margin:3px 0 7px}
+.step .bf{font-size:11.5px;color:#4a5365;line-height:1.45}
+.earn{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.earn .e{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.earn .e b{display:block;font-size:15px;margin:4px 0 2px}
+.earn .e span.d{font-size:12px;color:var(--muted);line-height:1.4;display:block}
+.rankrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.rankrow:last-child{border-bottom:0}
+.camphead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.track{position:relative;height:10px;border-radius:10px;background:#ececf4;margin:44px 18px 40px}
+.track>i{position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:linear-gradient(90deg,var(--accent),#ec4899)}
+.track .mk{position:absolute;top:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid #d9dbe6;display:grid;place-items:center;font-size:12px}
+.track .mk.ok{border-color:var(--accent);background:var(--accent);color:#fff}
+.track .mk em{position:absolute;top:32px;font-style:normal;font-size:11px;color:var(--muted);white-space:nowrap;font-weight:600}
+.track .you{position:absolute;top:-32px;transform:translateX(-50%);font-size:10.5px;font-weight:700;background:var(--ink);color:#fff;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.rwgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rw{border:1px solid var(--line);border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:7px;background:#fff}
+.rw .ico{font-size:26px}
+.rw .tp{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.rw h4{font-size:14px;line-height:1.35;margin:0}
+.rw p{font-size:12px;color:var(--muted);line-height:1.5;flex:1;margin:0}
+.rw.ready{border-color:#fcd34d;background:linear-gradient(180deg,#fff,#fffbeb);box-shadow:0 0 0 3px #fef3c7}
+.rw.locked{background:#fafbfd}.rw.locked .ico{filter:grayscale(1);opacity:.55}
+.rw .ft{margin-top:4px}
+.codebox{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f3f1ff;border:1px dashed #b9aefc;border-radius:10px;padding:7px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:12px;color:var(--accent)}
+.codebox button{background:none;color:var(--accent);font-weight:700;font-size:11px}
+.ticket{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}.ticket:last-child{border-bottom:0}
+.ticket .ico{font-size:24px;width:46px;height:46px;border-radius:12px;background:#ede9fe;display:grid;place-items:center;flex:none}
+.ticket .info{flex:1;min-width:0}
+/* ---------- Leaderboard ---------- */
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end;margin:6px 0 14px}
+.pod{text-align:center;padding:16px 10px 0;border-radius:16px 16px 0 0;background:linear-gradient(180deg,#faf9ff,#f1eeff);border:1px solid #e6e1ff;border-bottom:0}
+.pod.p1{padding-top:26px;min-height:190px;background:linear-gradient(180deg,#fff9e6,#ffefbf);border-color:#f3d98b}
+.pod.p2{min-height:160px}.pod.p3{min-height:138px}
+.pod .medal{font-size:30px}.pod.p1 .medal{font-size:38px}
+.pod .av{width:46px;height:46px;border-radius:50%;margin:6px auto;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+.pod.me{box-shadow:0 0 0 3px rgba(245,158,11,.45);border-color:#f59e0b}
+.pod .nm{font-weight:700;font-size:13px;word-break:break-all}
+.pod .tx{font-size:12px;color:var(--muted);margin-top:3px}
+.pod .you{display:inline-block;margin:6px 0 10px;font-size:10px;font-weight:800;background:#f59e0b;color:#fff;border-radius:20px;padding:2px 8px}
+.prize{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.prize:last-child{border-bottom:0}
+.tips3{margin:12px 0 0;padding-left:18px;font-size:13px;line-height:1.8;color:#4a5365}
+/* ---------- Evaluasi ---------- */
+.evalhead{display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:center}
+.contrib{display:flex;height:34px;border-radius:10px;overflow:hidden;background:#ececf4;margin:14px 0 10px}
+.contrib i{display:grid;place-items:center;color:#fff;font-style:normal;font-size:11.5px;font-weight:700}
+.lg2{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.lg2 span{display:inline-flex;align-items:center;gap:6px}
+.lg2 b{width:10px;height:10px;border-radius:3px;display:inline-block}
+.fbox{display:flex;gap:10px;align-items:flex-start;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:#3d3a66;margin-top:14px}
+.mstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.mstat{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fafbfd}
+.mstat span{font-size:11.5px;color:var(--muted);display:block}.mstat b{font-size:22px;letter-spacing:-.02em}
+.mstat.hi{background:#eaf8f2;border-color:#c9ecdd}.mstat.hi b{color:#16875f}
+.legendbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.sw{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:30px;background:#fff;border:1px solid var(--line);font-size:12.5px;font-weight:600;transition:all .15s}
+.sw .dot{width:10px;height:10px;border-radius:50%}
+.sw em{font-style:normal;color:var(--muted);font-weight:700;font-size:11.5px}
+.sw.off{opacity:.42;background:#f6f7fb}.sw.off .dot{background:#c3c8d4!important}
+.chartwrap{position:relative;min-height:260px}.chartwrap svg{width:100%;height:auto;display:block}
+.tip{position:absolute;top:0;pointer-events:none;background:var(--ink);color:#fff;border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.6;transform:translateX(-50%);opacity:0;transition:opacity .12s;white-space:nowrap;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.2);min-width:170px}
+.tip.on{opacity:1}.tip b{display:block;margin-bottom:2px}
+.tip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.tip span{float:right;margin-left:18px;font-weight:700}
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tipc{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.tipc b{font-size:13px;display:block;margin-bottom:5px}
+.tipc span{font-size:12.5px;color:var(--muted);line-height:1.55;display:block}
+/* ---------- Profil ---------- */
+.profilehead{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.profilehead .avatar{width:68px;height:68px;font-size:22px}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bdg{border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;background:#fff}
+.bdg .e{font-size:28px;display:block;margin-bottom:6px}
+.bdg b{font-size:12.5px;display:block}
+.bdg span.d{font-size:11px;color:var(--muted);display:block;margin-top:3px;line-height:1.4}
+.bdg.locked .e{filter:grayscale(1);opacity:.45}.bdg.locked{background:#fafbfd}
+/* ---------- Brief ---------- */
+.modalbox.wide{width:min(820px,100%);padding:0}
+.bhead{padding:24px 28px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2;border-radius:16px 16px 0 0}
+.bhead h2{font-size:21px;margin:0}
+.bbody{padding:20px 28px 8px;display:grid;gap:18px}
+.bsec h4{font-size:13.5px;margin:0 0 9px;display:flex;align-items:center;gap:8px}
+.bsec p{font-size:13px;line-height:1.65;color:#4a5365;margin:0}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.idea{border:1px solid var(--line);border-radius:14px;padding:13px 14px;background:#fafbfd}
+.idea b{font-size:13px;display:block;margin-bottom:4px}.idea span{font-size:12.5px;color:var(--muted);line-height:1.55;display:block}
+.ideas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cklist{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.cklist li{font-size:12.8px;line-height:1.55;color:#3f485a;padding-left:26px;position:relative}
+.cklist.ok li:before{content:"✓";position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:50%;background:#eaf8f2;color:var(--green);font-size:11px;font-weight:800;display:grid;place-items:center}
+.cklist.no li:before{content:"✕";position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:50%;background:#fdecec;color:var(--red);font-size:10px;font-weight:800;display:grid;place-items:center}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.spec{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.spec span{font-size:11px;color:var(--muted);display:block}.spec b{font-size:13px}
+.kv{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f3f1ff;border:1px dashed #b9aefc;border-radius:11px;padding:9px 12px;margin-bottom:8px;font-size:12.5px}
+.kv span{color:var(--muted);font-size:11px;display:block}
+.kv b{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--accent);word-break:break-all}
+.kv button{background:#fff;color:var(--accent);font-weight:700;font-size:11.5px;padding:6px 11px;border-radius:8px;flex:none}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tl div{border-left:3px solid var(--accent2);background:#faf9ff;border-radius:0 12px 12px 0;padding:10px 12px}
+.tl b{font-size:12px;color:var(--accent);display:block;margin-bottom:3px}.tl span{font-size:12px;color:#4a5365;line-height:1.5}
+.capbox{white-space:pre-wrap;background:#f8f9fc;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.8px;line-height:1.7;color:#303a4d}
+.bfoot{display:flex;justify-content:flex-end;gap:9px;padding:14px 28px 22px;position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);border-radius:0 0 16px 16px;flex-wrap:wrap}
+@media(max-width:1100px){.rwgrid,.earn{grid-template-columns:1fr 1fr}.tierhero,.evalhead{grid-template-columns:1fr}.tips{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.ladder{grid-template-columns:1fr 1fr}.ideas,.tl,.specs{grid-template-columns:1fr 1fr}.bgrid{grid-template-columns:1fr}.mstats{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){
+ .main{padding:16px 16px 48px}
+ .mnav{display:flex;gap:6px;overflow-x:auto;margin:0 -16px 16px;padding:0 16px 4px;scrollbar-width:none}
+ .mnav::-webkit-scrollbar{display:none}
+ .mnav button{flex:none;padding:9px 14px;border-radius:30px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;color:#5b6475}
+ .mnav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+ .rwgrid,.earn,.tips,.badges,.ladder,.ideas,.tl,.specs{grid-template-columns:1fr}
+ .congrats{align-items:flex-start}.congrats .go{margin-left:0}
+ .podium{gap:6px}.pod{padding:12px 4px 0}.pod .nm{font-size:11px}.pod .medal{font-size:24px}.pod.p1 .medal{font-size:30px}
+ .bbody,.bhead,.bfoot{padding-left:18px;padding-right:18px}
+ .track{margin-left:14px;margin-right:14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="logo">Influ<span>Track</span></div>
+  <div class="tag">Affiliate Management Platform</div>
+  <nav class="nav" id="nav"></nav>
+  <div class="sidecard" id="sidecard"></div>
+</aside>
+
+<main class="main">
+<div class="top"><div><div class="eyebrow">Food Blogger Affiliate</div><h1 id="title">Dashboard</h1></div><div class="profile"><span class="muted">@InfluTrack</span><div class="avatar" id="topAvatar">FS</div></div></div>
+<div class="mnav" id="mnav"></div>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="menu-section show">
+<div class="hero"><div><h2>Selamat datang, <span class="nameFill">Foodie Semarang</span> 👋</h2><p>InfluTrack adalah platform berbasis web yang mempermudah bisnis kuliner dan food blogger mengelola program afiliasi secara akurat. Mulai dari pendaftaran, pemantauan link &amp; kode promo, pelacakan transaksi real-time, hingga perhitungan komisi dan skor kinerja semua terintegrasi dalam satu sistem.</p></div><button onclick="openModal()">+ Daftar Campaign</button></div>
+
+<div id="dashBanner"></div>
+
+<div class="cards" id="dashKpis"></div>
+<div class="grid">
+<div class="panel"><div class="panelhead"><h3>Campaign Aktif</h3><button class="secondary" onclick="show('campaign')">Lihat semua</button></div>
+<div id="dashCampaigns"></div>
+</div>
+<div class="rcol"><div class="panel score"><h3>Performance Score</h3><div class="ring" style="--p:87"><span>87</span></div><b>Excellent Performance</b><div class="muted">Status kerja sama: <strong style="color:var(--green)">Aktif</strong> · ↑ 6 poin dari bulan lalu</div><button class="secondary small" style="margin-top:14px" onclick="show('evaluation')">Lihat cara hitung skor</button>
+<div class="claimbox"><div id="claimTitle" style="font-size:14px"></div><div class="muted" id="claimSub" style="margin-top:3px;color:#92400e"></div><button class="primary" id="claimBtn" onclick="goRewards()"></button></div></div>
+<div class="panel" id="dashReward"></div>
+<div class="panel" id="todayPanel"><div class="panelhead"><div><h3>📊 Grafik Hari Ini</h3><div class="muted">Selasa, 24 Nov 2026 · per 2 jam</div></div><div class="seg"><button class="on" onclick="renderToday('klik',this)">Klik</button><button onclick="renderToday('trx',this)">Transaksi</button><button onclick="renderToday('sales',this)">Penjualan</button></div></div>
+<div class="tstats"><div><div class="l">Klik hari ini</div><div class="v" id="ts1"></div></div><div><div class="l">Transaksi</div><div class="v" id="ts2"></div></div><div><div class="l">Penjualan</div><div class="v" id="ts3"></div></div></div>
+<div id="todayChart"></div><div class="trend2" id="todayNote"></div></div></div>
+</div>
+</section>
+
+<!-- CAMPAIGN -->
+<section id="campaign" class="menu-section">
+<div class="info"><b>Bagaimana InfluTrack membedakan video campaign dan video biasa?</b>
+<ul>
+<li>Setiap video campaign <b>wajib</b> memakai hashtag resmi, tag akun brand, dan label kolaborasi/paid partnership.</li>
+<li>Di caption/bio wajib mencantumkan <b>link tracking</b> dan <b>kode promo unik</b> milikmu. Hanya transaksi dari link/kode ini yang dihitung komisinya.</li>
+<li>Video yang tidak memenuhi Content Brief tidak dihitung sebagai konten campaign dan tidak masuk penilaian di Evaluasi.</li>
+</ul></div>
+<div class="panel"><div class="panelhead"><h3>Campaign Tersedia</h3><button class="primary" onclick="openModal()">+ Daftar Campaign</button></div>
+<div class="chips" id="campFilter" style="margin-bottom:14px"></div><div style="overflow-x:auto"><table class="table" id="campTable"></table></div></div>
+</section>
+
+<!-- PERFORMANCE -->
+<section id="performance" class="menu-section">
+<div class="info"><b>Apa itu halaman Performance?</b> Halaman ini menunjukkan hasil nyata dari link dan kode promo milikmu: berapa orang yang membuka link, berapa yang membeli, dan berapa uang yang dihasilkan. Angka-angka ini menjadi dasar <b>skor di menu Evaluasi</b> dan <b>peringkat di Leaderboard</b>.</div>
+<div class="cards">
+<div class="card"><div class="label">Klik</div><div class="value">1.250</div><div class="trend">↑ 18,4% bulan ini</div><div class="cdesc"><b>Arti:</b> berapa kali link tracking-mu dibuka penonton. Klik berulang dari perangkat yang sama dalam 30 menit dihitung 1 supaya adil.</div></div>
+<div class="card"><div class="label">Transaksi</div><div class="value">125</div><div class="trend">↑ 12,1% bulan ini</div><div class="cdesc"><b>Arti:</b> pembelian yang selesai lewat link/kode promomu. Pesanan yang dibatalkan atau di-refund tidak dihitung.</div></div>
+<div class="card"><div class="label">Conversion Rate</div><div class="value">10%</div><div class="trend">↑ dari 8,9% di Minggu 1</div><div class="cdesc"><b>Rumus:</b> transaksi ÷ klik × 100%.<br>125 ÷ 1.250 × 100% = 10%. Artinya dari 10 orang yang klik, 1 orang membeli.</div></div>
+<div class="card"><div class="label">Repeat Order</div><div class="value">32</div><div class="trend">25,6% dari transaksi</div><div class="cdesc"><b>Arti:</b> transaksi dari pembeli yang memesan lagi lewat linkmu. 32 ÷ 125 = 25,6%. Tanda pelanggan puas dan ikut menambah Sales.</div></div>
+</div>
+<div class="panel" style="margin-top:18px"><div class="panelhead"><h3>Performance per Campaign</h3><span class="muted">Oktober 2026</span></div>
+<div style="overflow-x:auto"><table class="table"><tr><th>Campaign</th><th>Klik</th><th>Transaksi</th><th>Conversion</th><th>Sales</th><th>Rata-rata pesanan</th><th>Score</th><th>Peringkat</th></tr>
+<tr><td><b>Runa Coffee</b></td><td>650</td><td>72</td><td>11,1%</td><td>Rp4,2 jt</td><td>Rp58 rb</td><td><span class="badge">92 · Excellent</span></td><td><span class="rankchip r1" style="margin:0">🥇 #1</span></td></tr>
+<tr><td><b>Identix Coffee UNNES</b></td><td>410</td><td>35</td><td>8,5%</td><td>Rp2,1 jt</td><td>Rp60 rb</td><td><span class="badge purple">84 · Baik</span></td><td><span class="rankchip r3" style="margin:0">🥉 #3</span></td></tr>
+<tr><td><b>Keizai Coffee</b></td><td>190</td><td>18</td><td>9,5%</td><td>Rp1,2 jt</td><td>Rp67 rb</td><td><span class="badge purple">81 · Baik</span></td><td><span class="rankchip r2" style="margin:0">🥈 #2</span></td></tr>
+<tr style="background:#f8fafc;font-weight:800"><td>Total / gabungan</td><td>1.250</td><td>125</td><td>10%</td><td>Rp7,5 jt</td><td>Rp60 rb</td><td><span class="badge">87 · Excellent</span></td><td></td></tr></table></div>
+<p class="muted" style="margin-top:10px;line-height:1.6"><b>Cara baca:</b> <b>Conversion</b> = transaksi ÷ klik. <b>Rata-rata pesanan</b> = sales ÷ transaksi. <b>Score</b> dihitung dari 4 indikator (Engagement, Conversion, Sales, Konsistensi) dengan cara yang sama seperti di menu Evaluasi: ≥ 85 Excellent, 70-84 Baik.</p></div>
+
+<div class="xgrid3" style="margin-top:18px">
+<div class="xcard" style="--k:#6366f1"><div class="xh">Runa Coffee <span>Skor 92</span></div><div class="xb"><h5>Kenapa tertinggi?</h5><ul><li>Conversion paling tinggi (11,1%) dan naik tiap minggu</li><li>Sales terbesar: Rp4,2 jt dari 72 transaksi</li><li>Konten rutin sejak Minggu 2 (konsistensi 100%)</li></ul><h5>Yang bisa ditingkatkan</h5><p>Rata-rata pesanan masih Rp58 rb, coba tawarkan menu paket.</p></div></div>
+<div class="xcard" style="--k:#f97316"><div class="xh">Identix Coffee UNNES <span>Skor 84</span></div><div class="xb"><h5>Kenapa 84?</h5><ul><li>Klik cukup banyak (410) tapi conversion terendah (8,5%)</li><li>Artinya banyak yang tertarik, tapi belum banyak yang jadi beli</li><li>Konsistensi 75% di dua minggu pertama</li></ul><h5>Yang bisa ditingkatkan</h5><p>Tampilkan promo dan harga lebih jelas, serta sebut kode promo di video.</p></div></div>
+<div class="xcard" style="--k:#14b8a6"><div class="xh">Keizai Coffee <span>Skor 81</span></div><div class="xb"><h5>Kenapa 81?</h5><ul><li>Klik paling sedikit (190), jangkauan masih kecil</li><li>Posting baru rutin di Minggu 4 (Minggu 1 hanya 50% dari target)</li><li>Conversion membaik: 7,5% di Minggu 1 menjadi 10,9% di Minggu 4</li></ul><h5>Yang bisa ditingkatkan</h5><p>Tambah frekuensi posting agar klik naik.</p></div></div>
+</div>
+
+<div class="panel" style="margin-top:18px"><div class="panelhead"><div><h3>Grafik Performance per Minggu</h3><div class="muted">Setiap garis adalah satu campaign. Garis naik berarti performa membaik. Arahkan kursor ke titik untuk melihat angkanya.</div></div></div>
+<div class="charts" style="margin-top:0">
+<div class="chartbox wide"><h4>Jumlah Klik per Minggu</h4><div class="muted">Berapa kali link dibuka tiap minggu</div><div id="pc1"></div><div class="trend2" id="pn1"></div></div>
+<div class="chartbox"><h4>Jumlah Transaksi per Minggu</h4><div class="muted">Pembelian lewat link/kode promo</div><div id="pc2"></div><div class="trend2" id="pn2"></div></div>
+<div class="chartbox"><h4>Conversion Rate per Minggu (%)</h4><div class="muted">Transaksi ÷ klik</div><div id="pc3"></div><div class="trend2" id="pn3"></div></div>
+</div></div>
+</section>
+
+<!-- LEADERBOARD -->
+<section id="leaderboard" class="menu-section">
+<div class="congrats" id="lbBanner"></div>
+<div class="panel" style="margin-bottom:18px"><h3>📖 Cara Kerja Leaderboard &amp; Reward</h3>
+<p style="font-size:13px;line-height:1.6;margin:8px 0 14px">Leaderboard adalah papan peringkat affiliate di <b>satu campaign</b>. Tujuannya memotivasi food blogger agar lebih rajin mengikuti campaign: selain mendapat <b>komisi</b>, kamu juga bisa mendapat <b>fasilitas khusus</b> (reward) dari kafe/brand penyelenggara campaign.</p>
+<div class="xgrid3">
+<div class="xcard" style="--k:#f59e0b"><div class="xh">🏁 Apa itu "Juara"?</div><div class="xb"><ul>
+<li><b>Juara 1, 2, 3</b> = tiga affiliate dengan <b>jumlah transaksi valid terbanyak</b> di campaign itu selama periode campaign.</li>
+<li>Setiap campaign punya leaderboard sendiri. Kamu bisa Juara 1 di Runa Coffee tapi peringkat 3 di Identix.</li>
+<li>Peringkat berubah real-time setiap ada transaksi baru. Juara resmi ditetapkan saat campaign berakhir.</li>
+<li>Kalau jumlah transaksi sama: dilihat dari nilai penjualan terbesar, lalu conversion rate tertinggi.</li></ul></div></div>
+<div class="xcard" style="--k:#6366f1"><div class="xh">🎯 Reward diberikan atas apa?</div><div class="xb"><ul>
+<li><b>Reward Juara</b>: untuk peringkat 1-3 saat campaign berakhir. Bersifat bersaing, hanya 3 orang yang dapat.</li>
+<li><b>Reward Milestone</b>: untuk siapa pun yang mencapai target jumlah transaksi (misal 25, 50, 75). Otomatis, tanpa harus juara.</li>
+<li><b>Bonus poin</b>: peringkat 1/2/3 mendapat +250/+150/+75 poin untuk naik tier (Bronze → Platinum) di menu Reward.</li><li>Bentuknya: kupon, potongan harga, gratis makanan/minuman, atau undangan berkunjung &amp; tasting gratis di kafe.</li></ul></div></div>
+<div class="xcard" style="--k:#14b8a6"><div class="xh">💰 Bedanya dengan komisi?</div><div class="xb"><ul>
+<li><b>Komisi</b>: persentase dari penjualan (misal 10%), dibayar dalam bentuk uang, diterima semua affiliate.</li>
+<li><b>Reward</b>: fasilitas non-tunai dari kafe, sebagai <b>tambahan di luar komisi</b> dan tidak mengurangi komisimu.</li>
+<li>Jenis reward ditentukan dan dibiayai pihak kafe, jadi berbeda-beda di tiap campaign.</li></ul></div></div>
+</div>
+<div class="xgrid" style="margin-top:16px">
+<div class="xcard" style="--k:#ec4899"><div class="xh">✅ Syarat transaksi valid</div><div class="xb"><ul><li>Masuk lewat link/kode promo milikmu</li><li>Tidak dibatalkan atau di-refund</li><li>Video sesuai Content Brief (hashtag, kode promo, link)</li><li>Bukan transaksi dari akun/pesanan sendiri</li></ul></div></div>
+<div class="xcard" style="--k:#3b82f6"><div class="xh">🎟️ Cara klaim reward</div><div class="xb"><ul><li>Reward muncul di menu <b>Reward</b> (dan <b>Profil › Reward Saya</b>) dengan status "Siap diklaim"</li><li>Tunjukkan kode reward ke kasir kafe</li><li>Berlaku 30 hari sejak reward muncul</li></ul></div></div>
+</div></div>
+<div class="grid" style="margin-top:0">
+<div class="panel"><div class="panelhead"><h3>Affiliate Leaderboard</h3><select class="sel" id="lbSel" onchange="renderLB(this.value)"><option value="all">Semua Campaign</option><option value="runa">Runa Coffee</option><option value="identix">Identix Coffee UNNES</option><option value="keizai">Keizai Coffee</option></select></div>
+<p class="muted" style="margin-top:-6px">Peringkat berdasarkan jumlah transaksi yang masuk lewat link &amp; kode promo masing-masing affiliate. Leaderboard ini tidak mengubah komisi; ini adalah <b>tambahan reward</b> dari pihak kafe.</p>
+<div id="lbPodium"></div><table class="table" id="lbTable"></table>
+<div class="muted" style="margin-top:12px;line-height:1.6"><b>Cara baca tabel:</b> <b>Klik</b> = berapa kali link affiliate dibuka. <b>Transaksi valid ★</b> = pembelian yang benar-benar terjadi lewat link/kode promo; inilah <b>penentu peringkat</b>. <b>Penjualan</b> = total uang dari transaksi tersebut (dipakai jika transaksi seri). Barismu ditandai kuning.</div></div>
+<div class="rcol"><div class="panel"><h3 style="margin-bottom:4px">Reward Campaign</h3><div class="muted" id="rwSub"></div>
+<div style="margin:14px 0" id="rwTop"></div>
+<div id="rwMs"></div></div>
+<div class="panel"><h3>Cara naik peringkat</h3><ul class="tips3"><li>Bagikan link &amp; kode promo di setiap konten</li><li>Posting rutin sesuai target Content Brief</li><li>Dorong repeat order dengan menyebut reward</li></ul></div></div>
+</div>
+</section>
+
+<!-- REWARD -->
+<section id="reward" class="menu-section"><div id="rewardBody"></div></section>
+
+<!-- KOMISI -->
+<section id="commission" class="menu-section">
+<div class="cards"><div class="card"><div class="label">Komisi Bulan Ini</div><div class="value">Rp750 rb</div></div><div class="card"><div class="label">Komisi Dibayar</div><div class="value">Rp420 rb</div></div><div class="card"><div class="label">Menunggu Pembayaran</div><div class="value">Rp330 rb</div></div></div>
+<div class="panel" style="margin-top:18px"><div class="panelhead"><h3>Riwayat Komisi</h3><button class="secondary small" onclick="show('reward')">🎁 Lihat reward tambahan</button></div><table class="table"><tr><th>Campaign</th><th>Penjualan</th><th>Rate</th><th>Komisi</th><th>Status</th></tr><tr><td>Runa Coffee</td><td>Rp4.200.000</td><td>10%</td><td>Rp420.000</td><td><span class="badge">Dibayar</span></td></tr><tr><td>Identix Coffee UNNES</td><td>Rp2.100.000</td><td>10%</td><td>Rp210.000</td><td><span class="badge orange">Diproses</span></td></tr><tr><td>Keizai Coffee</td><td>Rp1.200.000</td><td>10%</td><td>Rp120.000</td><td><span class="badge orange">Diproses</span></td></tr></table><div class="info" style="margin:16px 0 0">💡 Selain komisi, kamu juga mendapat <b>reward</b> dari brand (kupon, potongan harga, minuman/makanan gratis, hingga undangan kunjungan). Reward tidak mengurangi komisi; keduanya dihitung terpisah.</div></div>
+</section>
+
+<!-- EVALUASI -->
+<section id="evaluation" class="menu-section">
+<div id="evTop"></div>
+<div class="grid" style="margin-top:0">
+<div class="panel"><h3>Evaluasi &amp; Status Kerja Sama</h3>
+<p style="margin:10px 0 4px"><b>Performance Score: 87/100</b> <span class="badge" style="margin-left:6px">Kerja sama aktif</span></p>
+<p class="muted">Hasil evaluasi terakhir: performa memenuhi standar campaign dan target penjualan perusahaan.</p>
+<div style="overflow-x:auto"><table class="table calc" style="margin-top:8px"><tr><th>Indikator</th><th>Data kamu</th><th>Target</th><th>Nilai</th><th>Bobot</th><th>Kontribusi</th></tr>
+<tr><td>Engagement</td><td>6,2%</td><td>7,3%</td><td>85</td><td>25%</td><td>21,25</td></tr>
+<tr><td>Conversion</td><td>10%</td><td>11,4%</td><td>88</td><td>30%</td><td>26,40</td></tr>
+<tr><td>Sales</td><td>Rp7,5 jt</td><td>Rp8,3 jt</td><td>90</td><td>30%</td><td>27,00</td></tr>
+<tr><td>Konsistensi konten</td><td>18 video</td><td>22 video</td><td>82</td><td>15%</td><td>12,30</td></tr>
+<tr class="total"><td colspan="5">Total Performance Score</td><td>≈ 87</td></tr></table></div>
+<p class="muted" style="margin-top:10px;line-height:1.6"><b>Cara hitung:</b> Nilai = (data kamu ÷ target) × 100, maksimal 100. Kontribusi = nilai × bobot. Skor akhir = jumlah semua kontribusi (21,25 + 26,40 + 27,00 + 12,30 = 86,95 ≈ 87). <b>Kenapa bobotnya begitu?</b> Conversion dan Sales masing-masing 30% karena langsung menentukan hasil bisnis kafe; Engagement 25% karena menunjukkan kualitas konten; Konsistensi 15% karena jadi penunjang. Data di tabel ini adalah gabungan semua campaign aktif.</p></div>
+<div class="panel"><h3>Arti Skor &amp; Status Kerja Sama</h3>
+<p class="muted" style="margin:6px 0 4px">Skor akhir menentukan status kerja samamu dengan campaign.</p>
+<table class="table cat"><tr><th>Skor</th><th>Kategori</th><th>Dampak</th></tr>
+<tr class="now"><td>85 - 100</td><td>Excellent ← kamu (87)</td><td>Kerja sama aktif, prioritas dapat campaign baru &amp; reward</td></tr>
+<tr><td>70 - 84</td><td>Baik</td><td>Kerja sama aktif</td></tr>
+<tr><td>50 - 69</td><td>Perlu perbaikan</td><td>Diberi peringatan, dievaluasi ulang bulan depan</td></tr>
+<tr><td>&lt; 50</td><td>Kurang</td><td>Kerja sama ditinjau / dihentikan</td></tr></table>
+<p class="muted" style="margin-top:10px;line-height:1.6">Skor 87 artinya kamu mencapai sekitar 87% dari target gabungan campaign. Masih ada 13 poin yang bisa dikejar, terbesar dari Konsistensi (kurang 18 poin) dan Engagement (kurang 15 poin).</p></div>
+</div>
+
+<h3 style="margin:26px 0 0;font-size:18px">🔎 Penjelasan Tiap Indikator: kenapa nilainya segitu?</h3>
+<div class="xgrid" style="margin-top:12px">
+<div class="xcard" style="--k:#ec4899"><div class="xh">💬 Engagement <span>Nilai 85 · Bobot 25%</span></div><div class="xb">
+<h5>Apa itu</h5><p>Seberapa banyak penonton yang berinteraksi dengan videomu, bukan sekadar menonton.</p>
+<h5>Rumus</h5><div class="formula">(like + komentar + share + simpan) ÷ views × 100%</div>
+<h5>Data kamu</h5><p>Rata-rata 15.000 views/video menghasilkan 930 interaksi (620 like, 110 komentar, 80 share, 120 simpan) = <b>6,2%</b>.</p>
+<h5>Kenapa dapat 85?</h5><p>Target campaign 7,3%. Hitungannya 6,2 ÷ 7,3 × 100 = <b>85</b>. Artinya sudah baik, tapi masih kurang 1,1 poin persen dari target.</p>
+<h5>Faktor yang memengaruhi</h5><ul><li>Hook di 3 detik pertama video</li><li>Ajakan berkomentar atau menyimpan (CTA)</li><li>Kualitas visual makanan/minuman</li><li>Jam upload (jam makan siang &amp; malam biasanya ramai)</li><li>Kecocokan konten dengan audiens Semarang</li></ul>
+<h5>Cara menaikkan</h5><p>Tambahkan pertanyaan di akhir video ("menu favoritmu apa?") dan ajak penonton menyimpan video untuk daftar jajan.</p></div></div>
+
+<div class="xcard" style="--k:#14b8a6"><div class="xh">🛒 Conversion <span>Nilai 88 · Bobot 30%</span></div><div class="xb">
+<h5>Apa itu</h5><p>Dari semua orang yang mengklik link, berapa yang akhirnya benar-benar membeli.</p>
+<h5>Rumus</h5><div class="formula">Transaksi ÷ klik × 100%</div>
+<h5>Data kamu</h5><p>1.250 klik menghasilkan 125 transaksi = <b>10%</b>. Artinya 1 dari 10 orang yang klik akhirnya membeli.</p>
+<h5>Kenapa dapat 88?</h5><p>Target 11,4% (sekitar 1 dari 9 pengklik). Hitungannya 10 ÷ 11,4 × 100 = <b>88</b>.</p>
+<h5>Faktor yang memengaruhi</h5><ul><li>Kode promo diucapkan jelas di video dan caption</li><li>Promo/harga yang tampil sesuai dengan yang ditawarkan</li><li>Link mudah dibuka dan proses pesan cepat</li><li>Kecocokan produk dengan audiens (misal kopi untuk anak kampus)</li><li>Kepercayaan audiens pada review yang jujur</li></ul>
+<h5>Cara menaikkan</h5><p>Sebut kode promo di video, pin komentar berisi link, dan tampilkan harga serta promo dengan jelas.</p></div></div>
+
+<div class="xcard" style="--k:#f59e0b"><div class="xh">💵 Sales <span>Nilai 90 · Bobot 30%</span></div><div class="xb">
+<h5>Apa itu</h5><p>Total uang penjualan yang dihasilkan lewat link atau kode promomu.</p>
+<h5>Rumus</h5><div class="formula">Jumlah transaksi × rata-rata nilai pesanan</div>
+<h5>Data kamu</h5><p>125 transaksi × rata-rata Rp60.000 per pesanan = <b>Rp7,5 juta</b>.</p>
+<h5>Kenapa dapat 90?</h5><p>Target Rp8,3 juta. Hitungannya 7,5 ÷ 8,3 × 100 = <b>90</b>. Kurang sekitar Rp0,8 juta dari target.</p>
+<h5>Faktor yang memengaruhi</h5><ul><li>Jumlah klik dan conversion (semakin banyak, semakin banyak transaksi)</li><li>Nilai per pesanan (paket/bundling membuat pesanan lebih besar)</li><li>Repeat order: ada 32 pembeli yang kembali memesan</li><li>Jumlah campaign yang kamu ikuti</li></ul>
+<h5>Cara menaikkan</h5><p>Promosikan menu paket atau combo dan dorong pembeli lama untuk memesan lagi.</p></div></div>
+
+<div class="xcard" style="--k:#6366f1"><div class="xh">📅 Konsistensi Konten <span>Nilai 82 · Bobot 15%</span></div><div class="xb">
+<h5>Apa itu</h5><p>Seberapa rutin kamu mengunggah video campaign yang sesuai Content Brief.</p>
+<h5>Rumus</h5><div class="formula">Video sesuai brief ÷ target video × 100%</div>
+<h5>Data kamu</h5><p>18 video sesuai brief dari target 22 video sebulan (Runa 8, Identix 8, Keizai 6).</p>
+<h5>Kenapa dapat 82?</h5><p>18 ÷ 22 × 100 = <b>82</b>. Kurang 4 video: posting di Minggu 1 belum lengkap, dan ada video yang tidak dihitung karena tidak memuat kode promo atau hashtag wajib.</p>
+<h5>Faktor yang memengaruhi</h5><ul><li>Jadwal posting yang rutin tiap minggu</li><li>Video memenuhi brief (hashtag #InfluTrack, kode promo, link)</li><li>Video baru, bukan video lama yang diunggah ulang</li><li>Video tidak dihapus sebelum campaign selesai</li></ul>
+<h5>Cara menaikkan</h5><p>Buat jadwal posting mingguan dan centang checklist brief sebelum upload.</p></div></div>
+</div>
+
+<div id="evMid"></div>
+<div class="panel" style="margin-top:18px"><div class="panelhead"><div><h3>Grafik Kinerja Campaign (1 Bulan)</h3><div class="muted">Perkembangan per minggu, Oktober 2026</div></div><select class="sel" id="evSel" onchange="renderEval(this.value)"><option value="runa">Runa Coffee</option><option value="identix">Identix Coffee UNNES</option><option value="keizai">Keizai Coffee</option></select></div>
+<div class="charts" style="margin-top:0">
+<div class="chartbox wide"><h4>Jumlah Klik Link per Minggu</h4><div class="muted" id="cSub0"></div><div id="c0"></div><div class="trend2" id="t0"></div></div>
+<div class="chartbox"><h4>Engagement Rate (%)</h4><div class="muted">Interaksi ÷ views</div><div id="c1"></div><div class="trend2" id="t1"></div></div>
+<div class="chartbox"><h4>Conversion Rate (%)</h4><div class="muted">Transaksi ÷ klik</div><div id="c2"></div><div class="trend2" id="t2"></div></div>
+<div class="chartbox"><h4>Sales (Rp juta)</h4><div class="muted">Nilai penjualan dari link/kode promo</div><div id="c3"></div><div class="trend2" id="t3"></div></div>
+<div class="chartbox"><h4>Konsistensi Konten (% dari target posting)</h4><div class="muted">Video diunggah ÷ target brief</div><div id="c4"></div><div class="trend2" id="t4"></div></div>
+</div></div>
+<div id="evBot"></div>
+</section>
+
+<!-- PROFIL -->
+<section id="profile" class="menu-section">
+<div class="congrats"><div class="ic">🏆</div><div><b>Selamat! Kamu No. 1 di campaign Runa Coffee</b><div>Terus pertahankan, reward spesial menantimu bulan ini.</div></div></div>
+<div id="profileTop"></div>
+<div class="panel" id="rewardPanel" style="margin-top:18px"><div class="panelhead"><div><h3>🎁 Reward Saya</h3><div class="muted">Fasilitas khusus dari kafe/brand campaign. Tekan "Klaim" untuk mendapat kode reward.</div></div><button class="primary small" onclick="claimAll()">Klaim Semua</button></div>
+<div style="overflow-x:auto"><table class="table" id="rwTable"></table></div></div>
+</section>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- MODAL DAFTAR -->
+<div class="modal" id="modal"><div class="modalbox"><h2>Daftar Campaign</h2><p class="muted">Pilih campaign yang ingin kamu ikuti. Pastikan sudah membaca Content Brief.</p><div class="formgrid"><div class="field full"><label>Campaign</label><select id="campSelect" onchange="joinPreview()"></select></div><div class="preview" id="fPreview"></div><div class="field"><label>Platform Promosi</label><select><option>TikTok</option><option>Instagram</option></select></div><div class="field"><label>Username</label><input value="@foodie_semarang"></div></div><div class="actions"><button class="secondary" onclick="closeModal()">Batal</button><button class="primary" onclick="submitCampaign()">Kirim Pendaftaran</button></div></div></div>
+
+<!-- MODAL BRIEF -->
+<div class="modal" id="modalBrief"><div class="modalbox wide" id="briefBox"></div></div>
+
+<!-- MODAL PROFIL -->
+<div class="modal" id="modalProfile"><div class="modalbox"><h2>Edit Profil</h2><div class="formgrid" style="margin-top:14px"><div class="field full"><label>Nama</label><input id="pName"></div><div class="field"><label>Platform</label><input id="pPlat"></div><div class="field"><label>Domisili</label><input id="pCity"></div><div class="field"><label>Followers</label><input id="pFol" type="number" min="0"></div><div class="field"><label>Average Views</label><input id="pViews" type="number" min="0"></div></div><div class="actions"><button class="secondary" onclick="closeModals()">Batal</button><button class="primary" onclick="saveProfile()">Simpan</button></div></div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const nf=new Intl.NumberFormat('id-ID');
+const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const initials=n=>String(n).replace('@','').split(/[\s._]+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+const PAL=['#6366f1','#14b8a6','#f59e0b','#3b82f6','#ec4899','#0ea5e9','#a855f7','#22c55e'];
+const colorOf=s=>PAL[[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%PAL.length];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let PROFILE=store.get('it_profile',{name:'Foodie Semarang',platform:'TikTok · Instagram',city:'Semarang',followers:25000,views:15000});
+let pending=store.get('it_pending',[]);
+let cur='dashboard';
+
+/* ---------- DATA CAMPAIGN ---------- */
+const CAMPS=[
+ {id:'runa',name:'Runa Coffee',cat:'Coffee Shop',rate:10,per:'1 Okt - 30 Nov',end:'30 Nov 2026',quota:2,open:true,joined:true,teaser:'🏷️ Kupon 15% di 25 transaksi · minuman gratis di 50'},
+ {id:'identix',name:'Identix Coffee UNNES',cat:'Coffee Shop',rate:10,per:'1 Okt - 30 Nov',end:'30 Nov 2026',quota:1,open:true,joined:true,teaser:'🏷️ Kupon Rp10.000 di 25 transaksi · minuman gratis di 50'},
+ {id:'keizai',name:'Keizai Coffee',cat:'Coffee Shop',rate:10,per:'1 Okt - 15 Nov',end:'15 Nov 2026',quota:1,open:true,joined:true,teaser:'🎟️ Diskon 10% mulai 15 transaksi'},
+ {id:'geprek',name:'Ayam Geprek Brebes UNNES',cat:'Tempat Makan',rate:5,per:'1 Okt - 30 Nov',end:'30 Nov 2026',quota:2,open:true,teaser:'🍗 Gratis 1 porsi tiap 30 transaksi'},
+ {id:'katsukai',name:'Katsukai',cat:'Tempat Makan',rate:10,per:'1 Okt - 25 Okt',end:'25 Okt 2026',quota:1,open:true,soon:true,teaser:'🍱 Diskon 25% makan di tempat'},
+ {id:'jagoan',name:'Ayam Jagoan',cat:'Tempat Makan',rate:5,per:'1 Okt - 24 Okt',end:'24 Okt 2026',quota:0,open:false,soon:true,teaser:'🍗 Paket hemat gratis di 40 transaksi'},
+ {id:'numanke',name:'Numanke',cat:'Tempat Makan',rate:5,per:'1 Okt - 15 Nov',end:'15 Nov 2026',quota:0,open:false,teaser:'🍜 Kupon diskon 15%'},
+ {id:'tehraya',name:'Teh Raya',cat:'Kedai Minuman',rate:5,per:'1 Okt - 26 Okt',end:'26 Okt 2026',quota:0,open:false,soon:true,teaser:'🧋 Gratis 1 teh di 20 transaksi'},
+ {id:'bobakar',name:'Bobakar',cat:'Kedai Minuman',rate:5,per:'1 Okt - 27 Okt',end:'27 Okt 2026',quota:1,open:true,soon:true,teaser:'🧋 Gratis minuman di 20 transaksi'},
+ {id:'kolu',name:'Kolu',cat:'Coffee Shop',rate:10,per:'1 Okt - 25 Okt',end:'25 Okt 2026',quota:0,open:false,soon:true,teaser:'☕ Diskon 20% + kunjungan tasting'},
+ {id:'seduh',name:'Seduh Rasa Coffee',cat:'Coffee Shop',rate:10,per:'1 Nov - 15 Des',end:'15 Des 2026',quota:3,open:true,isNew:true,teaser:'☕ Gratis 1 seduhan manual di 20 transaksi'},
+ {id:'butari',name:'Warung Bu Tari',cat:'Tempat Makan',rate:5,per:'1 Nov - 15 Des',end:'15 Des 2026',quota:2,open:true,isNew:true,teaser:'🍛 Gratis 1 porsi tiap 30 transaksi'},
+ {id:'dimsum',name:'Dimsum Mbak Rina',cat:'Tempat Makan',rate:8,per:'1 Nov - 30 Nov',end:'30 Nov 2026',quota:1,open:true,isNew:true,teaser:'🥟 Diskon 15% + gratis 1 porsi dimsum di 25 transaksi'}
+];
+const cmp=id=>CAMPS.find(c=>c.id===id);
+const cmpByName=n=>CAMPS.find(c=>c.name===n);
+const MINE_IDS=['runa','identix','keizai'];
+
+/* ---------- POIN & TIER ---------- */
+const TIERS=[
+ {k:'Bronze',min:0,ic:'🥉',cls:'bronze',bf:'Akses campaign & komisi standar.'},
+ {k:'Silver',min:500,ic:'🥈',cls:'silver',bf:'Kupon bulanan + notifikasi campaign lebih awal.'},
+ {k:'Gold',min:1000,ic:'🥇',cls:'gold',bf:'Prioritas kuota campaign + undangan food tasting.'},
+ {k:'Platinum',min:2000,ic:'💎',cls:'',bf:'Kunjungan & makan gratis tiap bulan + prioritas campaign baru.'}
+];
+const RANK_BONUS=[250,150,75];
+const REPEAT_ORDER=32;
+function myRow(k){return LB[k].rows.find(r=>r[4])}
+function myRank(k){return LB[k].rows.findIndex(r=>r[4])+1}
+function points(){
+ let trx=0,bonus=0;
+ MINE_IDS.forEach(id=>{trx+=myRow(id)[2];const r=myRank(id);if(r<=3)bonus+=RANK_BONUS[r-1]});
+ return {trxN:trx,trx:trx*10,repeat:REPEAT_ORDER*5,bonus,total:trx*10+REPEAT_ORDER*5+bonus};
+}
+function tierInfo(){
+ const p=points().total;let i=0;TIERS.forEach((t,k)=>{if(p>=t.min)i=k});
+ const c=TIERS[i],n=TIERS[i+1];
+ return {cur:c,next:n,i,p,pct:n?Math.round((p-c.min)/(n.min-c.min)*100):100,left:n?n.min-p:0};
+}
+const iconOf=t=>/undangan|kunjungan|tasting/i.test(t)?'🤝':/voucher/i.test(t)?'🎟️':/kupon|diskon|potongan/i.test(t)?'🏷️':/gratis/i.test(t)?'🥤':'🎁';
+
+/* ---------- NAVIGASI ---------- */
+const NAVS=[
+ {id:'dashboard',t:'Dashboard',ic:'▦'},{id:'campaign',t:'Campaign',ic:'◉'},{id:'performance',t:'Performance',ic:'↗'},
+ {id:'leaderboard',t:'Leaderboard',ic:'🏆'},{id:'reward',t:'Reward',ic:'🎁'},{id:'commission',t:'Komisi',ic:'◎'},
+ {id:'evaluation',t:'Evaluasi',ic:'★'},{id:'profile',t:'Profil',ic:'♙'}
+];
+const names={dashboard:'Dashboard',campaign:'Campaign',performance:'Performance',leaderboard:'Leaderboard',reward:'Reward',commission:'Komisi',evaluation:'Evaluasi',profile:'Profil'};
+function renderNav(){
+ const rc=RWD.filter(r=>r.st==='ready').length;
+ $('#nav').innerHTML=NAVS.map(n=>`<button class="${n.id===cur?'active':''}" onclick="show('${n.id}')"><span class="ic">${n.ic}</span>${n.t}${n.id==='reward'&&rc?`<span class="count">${rc}</span>`:''}</button>`).join('');
+ $('#mnav').innerHTML=NAVS.map(n=>`<button class="${n.id===cur?'active':''}" onclick="show('${n.id}')">${n.t}${n.id==='reward'&&rc?` (${rc})`:''}</button>`).join('');
+ const t=tierInfo();
+ $('#sidecard').innerHTML=`<div class="t"><span>${t.cur.ic}</span>${t.cur.k} Member</div><div class="s">${nf.format(t.p)} poin${t.next?` · ${t.left} poin lagi ke ${t.next.k}`:''}</div><div class="bar"><i style="width:${t.pct}%"></i></div>`;
+}
+function show(id){
+ if(!names[id])id='dashboard';
+ cur=id;
+ document.querySelectorAll('.menu-section').forEach(x=>x.classList.toggle('show',x.id===id));
+ $('#title').textContent=names[id];
+ renderNav();
+ if(id==='leaderboard')renderLB($('#lbSel').value);
+ if(id==='evaluation'){renderEval($('#evSel').value);renderEvalExtra()}
+ if(id==='reward')renderRewardPage();
+ try{history.replaceState(null,'','#'+id)}catch(e){}
+ window.scrollTo({top:0});
+}
+function copyText(t,msg){
+ const ok=()=>toast(msg||('Disalin: '+String(t).slice(0,60)));
+ try{navigator.clipboard.writeText(t).then(ok,()=>toast('Gagal menyalin.'))}catch(e){toast('Gagal menyalin.')}
+}
+function saveRwd(){store.set('it_rwd',RWD.map(r=>r.st))}
+function loadRwd(){const s=store.get('it_rwd',null);if(s&&s.length===RWD.length)RWD.forEach((r,i)=>{r.st=s[i]})}
+function refreshChrome(){
+ renderNav();renderDashExtras();renderCampaignTable();renderRewardPage();renderProfileTop();
+}
+function openModal(pre){
+ const opts=CAMPS.filter(c=>c.open&&!c.joined&&!pending.includes(c.id));
+ if(!opts.length){toast('Tidak ada campaign baru yang bisa didaftar saat ini.');return}
+ $('#campSelect').innerHTML=opts.map(c=>'<option value="'+c.id+'"'+(c.id===pre?' selected':'')+'>'+esc(c.name)+'</option>').join('');
+ joinPreview();$('#modal').classList.add('open');
+}
+function joinPreview(){
+ const c=cmp($('#campSelect').value);
+ $('#fPreview').innerHTML='<b>'+esc(c.name)+'</b> · '+c.cat+'<br>Komisi '+c.rate+'% · Periode '+c.per+' · Sisa kuota '+c.quota+'<br>🎁 Reward: '+c.teaser;
+}
+function closeModal(){$('#modal').classList.remove('open')}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'))}
+function submitCampaign(){
+ const id=$('#campSelect').value;pending.push(id);store.set('it_pending',pending);closeModal();
+ toast('Pendaftaran '+cmp(id).name+' berhasil dikirim dan menunggu verifikasi admin.');refreshChrome();
+}
+function openProfileModal(){
+ $('#pName').value=PROFILE.name;$('#pPlat').value=PROFILE.platform;$('#pCity').value=PROFILE.city;$('#pFol').value=PROFILE.followers;$('#pViews').value=PROFILE.views;
+ $('#modalProfile').classList.add('open');
+}
+function saveProfile(){
+ PROFILE={name:$('#pName').value.trim()||PROFILE.name,platform:$('#pPlat').value.trim()||PROFILE.platform,city:$('#pCity').value.trim()||PROFILE.city,followers:+$('#pFol').value||0,views:+$('#pViews').value||0};
+ store.set('it_profile',PROFILE);closeModals();toast('Profil berhasil diperbarui.');refreshChrome();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals()});
+document.addEventListener('click',e=>{if(e.target.classList&&e.target.classList.contains('modal'))closeModals()});
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+
+/* ---------- CONTENT BRIEF ---------- */
+const briefInfo={
+'Runa Coffee':{tag:'RunaCoffee',kode:'FOODIE-RUNA10',tema:'Review menu signature & suasana kafe',dur:'15-45 detik',post:'2 video / minggu'},
+'Identix Coffee UNNES':{tag:'IdentixUNNES',kode:'FOODIE-IDENTIX10',tema:'Spot nongkrong & belajar anak kampus',dur:'20-45 detik',post:'2 video / minggu'},
+'Keizai Coffee':{tag:'KeizaiCoffee',kode:'FOODIE-KEIZAI10',tema:'Kopi susu & menu baru Keizai',dur:'15-40 detik',post:'1-2 video / minggu'},
+'Ayam Geprek Brebes UNNES':{tag:'GeprekBrebes',kode:'FOODIE-GEPREK5',tema:'Level pedas & porsi hemat mahasiswa',dur:'15-40 detik',post:'2 video / minggu'},
+'Katsukai':{tag:'Katsukai',kode:'FOODIE-KATSU10',tema:'Review katsu & tekstur crispy',dur:'20-45 detik',post:'2 video / minggu'},
+'Ayam Jagoan':{tag:'AyamJagoan',kode:'FOODIE-JAGOAN5',tema:'Menu ayam & sambal andalan',dur:'15-40 detik',post:'2 video / minggu'},
+'Numanke':{tag:'Numanke',kode:'FOODIE-NUMANKE5',tema:'Menu andalan & harga bersahabat',dur:'15-40 detik',post:'2 video / minggu'},
+'Teh Raya':{tag:'TehRaya',kode:'FOODIE-TEHRAYA5',tema:'Varian teh & minuman segar',dur:'15-30 detik',post:'2 video / minggu'},
+'Bobakar':{tag:'Bobakar',kode:'FOODIE-BOBAKAR5',tema:'Boba bakar & topping unik',dur:'15-30 detik',post:'2 video / minggu'},
+'Kolu':{tag:'KoluCoffee',kode:'FOODIE-KOLU10',tema:'Kopi & dessert pendamping',dur:'15-40 detik',post:'2 video / minggu'},
+'Seduh Rasa Coffee':{tag:'SeduhRasa',kode:'FOODIE-SEDUH10',tema:'Proses seduh manual (manual brew) & pilihan beans',dur:'20-45 detik',post:'2 video / minggu'},
+'Warung Bu Tari':{tag:'WarungBuTari',kode:'FOODIE-BUTARI5',tema:'Masakan rumahan & menu harian',dur:'20-45 detik',post:'2 video / minggu'},
+'Dimsum Mbak Rina':{tag:'DimsumMbakRina',kode:'FOODIE-DIMSUM8',tema:'Close-up dimsum kukus & saus racikan',dur:'15-40 detik',post:'3 video / minggu'}
+};
+const CATB={
+ 'Coffee Shop':{ideas:[['Honest review menu signature','Ceritakan rasa, tingkat manis, dan harga. Tutup dengan rating versimu sendiri (30–45 detik).'],['Tur cepat spot & suasana','Tunjukkan area duduk, colokan, WiFi, dan jam ramai. Cocok untuk mahasiswa & pekerja remote.'],['Paket hemat ala mahasiswa','Rekomendasikan kombinasi minuman + camilan sesuai budget, lalu sebut kode promo.']],fmt:'Video vertikal 9:16 · 20–60 detik · carousel 4–6 slide untuk IG'},
+ 'Tempat Makan':{ideas:[['First bite reaction','Rekam reaksi suapan pertama, tampilkan porsi dan level pedas. Hook: “Ini worth it nggak sih?”'],['Porsi vs harga','Bandingkan porsi, harga, dan rasa. Sebutkan siapa yang cocok: anak kos, rame-rame, makan siang.'],['Paket hemat & level pedas','Cobain paket andalan atau tantangan level pedas bareng teman, lalu sebut kode promo.']],fmt:'Video vertikal 9:16 · 25–60 detik · close-up makanan wajib ada'},
+ 'Kedai Minuman':{ideas:[['Taste test varian','Coba 2–3 varian rasa, beri skor rasa dan tingkat kemanisan.'],['ASMR proses pembuatan','Visual close-up proses meracik + suara es/pour; tampilkan harga di akhir.'],['Pilih 1 minuman bareng teman','Ajak teman memilih minuman favorit; sebut paket berdua dan kode promo.']],fmt:'Video vertikal 9:16 · 15–45 detik · fokus visual minuman'}
+};
+const BRX={
+ runa:{angle:'tempat ngopi santai buat nugas',hero:['Kopi susu signature','Manual brew / V60','Pastry atau camilan pendamping'],goal:'Meningkatkan kunjungan & pembelian pertama dari mahasiswa dan pekerja muda di area Semarang.',aud:'Mahasiswa dan pekerja muda usia 18–30, suka nongkrong dan mengerjakan tugas di kafe.'},
+ identix:{angle:'kopi enak dekat kampus UNNES',hero:['Es kopi susu','Signature latte','Snack ringan untuk nongkrong'],goal:'Mengenalkan Identix Coffee UNNES sebagai tempat ngopi favorit mahasiswa sekitar Gunungpati.',aud:'Mahasiswa UNNES dan sekitar Sekaran–Gunungpati, usia 17–25.'},
+ keizai:{angle:'kopi yang pas buat nongkrong',hero:['Kopi susu gula aren','Menu coffee based','Dessert / cookies'],goal:'Mendorong trial menu andalan dan kunjungan ulang sebelum campaign berakhir.',aud:'Anak muda Semarang yang mencari kafe nyaman dengan harga bersahabat.'},
+ geprek:{angle:'ayam geprek pedas yang murah meriah',hero:['Ayam geprek level pedas','Paket nasi + ayam + es teh','Varian sambal'],goal:'Mendorong pembelian paket hemat dari mahasiswa sekitar UNNES.',aud:'Mahasiswa dan anak kos yang mencari makan kenyang dengan budget terbatas.'},
+ katsukai:{angle:'katsu crispy yang bikin kenyang',hero:['Chicken katsu','Katsu curry / rice bowl','Paket hemat'],goal:'Meningkatkan penjualan menu katsu untuk makan siang dan makan malam.',aud:'Pekerja muda dan mahasiswa penyuka masakan Jepang ala rumahan.'},
+ jagoan:{angle:'ayam andalan buat makan siang',hero:['Ayam goreng / geprek andalan','Paket hemat','Sambal khas'],goal:'Mengisi jam makan siang dengan promosi paket hemat.',aud:'Mahasiswa dan pekerja yang mencari makan siang cepat dan murah.'},
+ numanke:{angle:'menu makan siang yang mengenyangkan',hero:['Menu nasi / mie andalan','Paket makan siang','Menu terbaru'],goal:'Memperkenalkan menu andalan dan paket makan siang kepada audiens baru.',aud:'Anak muda Semarang yang gemar berburu kuliner baru.'},
+ tehraya:{angle:'teh seger buat nemenin hari',hero:['Teh susu / teh buah','Varian topping','Paket minum berdua'],goal:'Mendorong pembelian minuman harian dan paket berdua.',aud:'Mahasiswa dan pelajar penyuka minuman segar dan terjangkau.'},
+ bobakar:{angle:'minuman manis yang bikin nagih',hero:['Boba / minuman andalan','Varian rasa terbaru','Paket bareng teman'],goal:'Menaikkan penjualan varian baru dan paket sharing.',aud:'Remaja dan mahasiswa yang suka jajan minuman kekinian.'},
+ kolu:{angle:'kopi yang bikin semangat',hero:['Kopi susu','Menu signature','Spot nongkrong'],goal:'Mengenalkan Kolu sebagai opsi ngopi dengan rasa konsisten dan harga terjangkau.',aud:'Mahasiswa dan pekerja muda di area Semarang.'},
+ seduh:{angle:'kopi seduh manual yang beda',hero:['Manual brew (V60 / Japanese)','Pilihan single origin beans','Pendamping pastry'],goal:'Mengenalkan metode seduh manual dan pilihan beans Seduh Rasa Coffee kepada pecinta kopi.',aud:'Pecinta kopi usia 20–35 yang suka mengeksplor metode seduh dan single origin.'},
+ butari:{angle:'masakan rumahan yang bikin kangen',hero:['Menu harian masakan rumahan','Paket nasi + lauk','Sambal khas Bu Tari'],goal:'Meningkatkan kunjungan makan siang dan pesanan harian dari audiens yang mencari masakan rumahan.',aud:'Pekerja kantoran dan keluarga muda yang mencari masakan rumahan terjangkau.'},
+ dimsum:{angle:'dimsum kukus yang enak buat dibagi',hero:['Dimsum kukus aneka isi','Saus racikan khas','Paket berbagi'],goal:'Mendorong pembelian dimsum kukus dan saus racikan, termasuk pesanan untuk berbagi.',aud:'Anak muda dan keluarga yang suka camilan dimsum untuk dimakan bersama.'}
+};
+function briefOf(c){
+ const bi=briefInfo[c.name],b=BRX[c.id],k=CATB[c.cat],link='link.influtrack.id/foodie-semarang/'+c.id;
+ const tags='#InfluTrack #'+bi.tag+' #FoodieSemarang #Kolaborasi';
+ const cap='Lagi cari '+b.angle+'? 😍\nAku udah nyobain '+b.hero[0]+' di '+c.name+' — rasanya [ceritakan rasa], harganya [sebut harga], cocok buat [siapa].\n\nPakai kode '+bi.kode+' atau klik link di bio untuk dapetin promonya!\n📍 '+c.name+', Semarang\n\n'+tags;
+ return {bi,b,k,link,tags,cap};
+}
+const CPX={
+ runa:['Admin Campaign Runa Coffee','0812-0000-0101'],identix:['Admin Campaign Identix Coffee UNNES','0812-0000-0102'],keizai:['Admin Campaign Keizai Coffee','0812-0000-0103'],
+ geprek:['Admin Campaign Ayam Geprek Brebes UNNES','0812-0000-0104'],katsukai:['Admin Campaign Katsukai','0812-0000-0105'],jagoan:['Admin Campaign Ayam Jagoan','0812-0000-0106'],
+ numanke:['Admin Campaign Numanke','0812-0000-0107'],tehraya:['Admin Campaign Teh Raya','0812-0000-0108'],bobakar:['Admin Campaign Bobakar','0812-0000-0109'],
+ kolu:['Admin Campaign Kolu','0812-0000-0110'],seduh:['Admin Campaign Seduh Rasa Coffee','0812-0000-0111'],butari:['Admin Campaign Warung Bu Tari','0812-0000-0112'],dimsum:['Admin Campaign Dimsum Mbak Rina','0812-0000-0113']
+};
+const waLink=n=>'https://wa.me/62'+n.replace(/\D/g,'').replace(/^0/,'');
+function copyCap(id){copyText(briefOf(cmp(id)).cap,'Template caption disalin.')}
+function openBrief(n){
+ const c=cmpByName(n),{bi,b,k,link,tags,cap}=briefOf(c);
+ const can=c.open&&!c.joined&&!pending.includes(c.id);
+ const cp=CPX[c.id];
+ const must=['Hashtag resmi: <span class="code">#InfluTrack</span> <span class="code">#'+bi.tag+'</span>','Tag akun brand dan aktifkan label kolaborasi/paid partnership','Kode promo pribadimu: <span class="code">'+bi.kode+'</span> (sebut di video dan caption)','Pasang link tracking InfluTrack di bio/caption (tanpa link ini transaksi tidak tercatat)','Tampilkan produk/menu utama dengan jelas minimal 5 detik','Gunakan hook menarik di 3 detik pertama','Posting sesuai target: <b>'+bi.post+'</b>'];
+ const avoid=['Klaim berlebihan atau tidak sesuai kenyataan (mis. “paling enak se-Semarang”)','Menjelekkan brand atau kompetitor lain','Menghapus hashtag/kode promo setelah upload','Menggunakan video lama sebagai konten campaign','Memakai musik di luar pustaka resmi platform untuk konten komersial'];
+ const tl=[['Minggu 1 · Perkenalan','Review pertama + pasang link dan kode di bio. Pakai ide “'+k.ideas[0][0]+'”.'],['Minggu 2 · Eksplor','Konten spot/proses + balas komentar soal harga dan lokasi.'],['Minggu 3 · Repeat order','Soroti menu/promo yang bikin balik lagi dan sebut reward milestone.'],['Minggu 4 · Dorongan akhir','Konten rekap + pengingat “terakhir sebelum campaign berakhir”.']];
+ const rwTxt=c.teaser+(c.joined?' — lihat jalur reward lengkap di menu Reward.':'. Detail reward lengkap tersedia setelah kamu bergabung.');
+ $('#briefBox').innerHTML=
+  '<div class="bhead"><h2 id="bTitle">Content Brief: '+esc(c.name)+'</h2><div class="chips" style="margin-top:10px"><span class="badge purple">Komisi '+c.rate+'%</span><span class="badge">'+c.per+'</span><span class="badge gray">'+c.cat+'</span><span class="badge '+(c.joined?'purple':'gray')+'">'+(c.joined?'✓ Sedang diikuti':c.open?'Sisa kuota '+c.quota:'Kuota penuh')+'</span>'+(c.soon?'<span class="badge orange">⏰ Segera berakhir</span>':'')+'</div></div>'+
+  '<div class="bbody">'+
+  '<div class="bgrid"><div class="bsec"><h4>🎯 Tujuan Campaign</h4><p>'+b.goal+'</p></div><div class="bsec"><h4>👥 Target Audiens</h4><p>'+b.aud+'</p></div></div>'+
+  '<div class="bsec"><h4>🍽️ Menu / Produk yang Disorot</h4><div class="chips">'+b.hero.map(x=>'<span class="badge purple" style="font-size:12px">'+x+'</span>').join('')+'</div></div>'+
+  '<div class="bsec"><h4>💡 Konsep &amp; Ide Konten</h4><p style="margin-bottom:10px">Tema campaign: <b>'+bi.tema+'</b></p><div class="ideas">'+k.ideas.map((x,i)=>'<div class="idea"><b>'+(i+1)+'. '+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div></div>'+
+  '<div class="bgrid"><div class="bsec"><h4>✅ Wajib Dilakukan (ciri video campaign)</h4><ul class="cklist ok">'+must.map(x=>'<li>'+x+'</li>').join('')+'</ul></div><div class="bsec"><h4>🚫 Hindari</h4><ul class="cklist no">'+avoid.map(x=>'<li>'+x+'</li>').join('')+'</ul></div></div>'+
+  '<div class="bsec"><h4>🎬 Spesifikasi Konten</h4><div class="specs"><div class="spec"><span>Platform</span><b>TikTok · Instagram</b></div><div class="spec"><span>Format</span><b style="font-weight:600;font-size:12px">'+k.fmt+'</b></div><div class="spec"><span>Durasi</span><b>'+bi.dur+'</b></div><div class="spec"><span>Target posting</span><b>'+bi.post+'</b></div></div></div>'+
+  '<div class="bsec"><h4>🔗 Link, Kode Promo &amp; Hashtag</h4>'+
+   '<div class="kv"><div><span>Link tracking kamu</span><b>'+link+'</b></div><button onclick="copyText(\''+link+'\')">Salin</button></div>'+
+   '<div class="kv"><div><span>Kode promo</span><b>'+bi.kode+'</b></div><button onclick="copyText(\''+bi.kode+'\')">Salin</button></div>'+
+   '<div class="kv"><div><span>Hashtag wajib</span><b>'+tags+'</b></div><button onclick="copyText(\''+tags+'\')">Salin</button></div></div>'+
+  '<div class="bsec"><h4>📞 Contact Person (CP) Campaign</h4><div class="kv"><div><span>'+cp[0]+' · WhatsApp</span><b>'+cp[1]+'</b></div><div style="display:flex;gap:6px"><button onclick="copyText(\''+cp[1]+'\',\'Nomor CP disalin.\')">Salin</button><a href="'+waLink(cp[1])+'" target="_blank" rel="noopener" style="background:#22c55e;color:#fff;font-weight:700;font-size:11.5px;padding:6px 11px;border-radius:8px;text-decoration:none">Chat WA</a></div></div><p class="muted">Hubungi CP untuk pertanyaan brief, stok menu, jadwal kunjungan, atau klaim reward.</p></div>'+
+  '<div class="bsec"><h4>🗓️ Timeline Konten 4 Minggu</h4><div class="tl">'+tl.map(t=>'<div><b>'+t[0]+'</b><span>'+t[1]+'</span></div>').join('')+'</div></div>'+
+  '<div class="bsec"><h4>✍️ Template Caption</h4><div class="capbox">'+esc(cap)+'</div></div>'+
+  '<div class="bsec"><h4>🎁 Reward Campaign</h4><p>'+rwTxt+'</p></div>'+
+  '</div>'+
+  '<div class="bfoot"><button class="secondary" onclick="closeBrief()">Tutup</button><button class="secondary" onclick="copyCap(\''+c.id+'\')">📋 Salin Caption</button>'+(can?'<button class="primary" onclick="closeBrief();openModal(\''+c.id+'\')">Daftar Campaign</button>':'')+(c.joined?'<button class="primary" onclick="closeBrief();show(\'reward\')">Lihat Reward</button>':'')+'</div>';
+ $('#modalBrief').classList.add('open');$('#briefBox').scrollTop=0;
+}
+function closeBrief(){$('#modalBrief').classList.remove('open')}
+
+/* ---------- LEADERBOARD & REWARD ---------- */
+const LB={
+runa:{name:'Runa Coffee',rows:[['Foodie Semarang',650,72,'Rp4,2 jt',1],['@kulinerjateng',590,64,'Rp3,8 jt'],['@makanapa.smg',470,51,'Rp3,0 jt'],['@jajanankampus',350,38,'Rp2,2 jt'],['@nyamnyam.unnes',260,29,'Rp1,7 jt']],
+ top:'🏆 Peringkat #1 bulan ini: gratis 1 minuman signature tiap minggu + voucher Rp50.000 di Runa Coffee.',ms:[[25,'Kupon diskon 15% (untuk kamu & pengikut)'],[50,'Gratis 1 minuman pilihan'],[75,'Undangan kunjungan & tasting menu baru gratis di Runa Coffee']]},
+identix:{name:'Identix Coffee UNNES',rows:[['@ngopi.unnes',520,41,'Rp2,5 jt'],['@kulinerjateng',450,37,'Rp2,2 jt'],['Foodie Semarang',410,35,'Rp2,1 jt',1],['@jajanankampus',300,26,'Rp1,5 jt']],
+ top:'🏆 Peringkat #1 bulan ini: kunjungan gratis untuk 2 orang (makanan & minuman) di Identix Coffee UNNES.',ms:[[25,'Kupon potongan Rp10.000'],[50,'Gratis 1 minuman setelah 50 transaksi'],[75,'Voucher makan & minum gratis di Identix Coffee UNNES']]},
+keizai:{name:'Keizai Coffee',rows:[['@kopi.smg',240,22,'Rp1,4 jt'],['Foodie Semarang',190,18,'Rp1,2 jt',1],['@makanapa.smg',160,14,'Rp0,9 jt']],
+ top:'🏆 Peringkat #1 bulan ini: voucher Rp40.000 + merchandise eksklusif Keizai Coffee.',ms:[[15,'Kupon diskon 10%'],[30,'Gratis 1 minuman pilihan'],[50,'Undangan kunjungan & coba menu baru gratis']]}
+};
+const RW={
+runa:['Gratis 1 minuman signature tiap minggu + voucher Rp50.000','Voucher Rp30.000','Kupon diskon 20%'],
+identix:['Kunjungan gratis untuk 2 orang (makanan & minuman) di Identix Coffee UNNES','Voucher makan-minum Rp40.000','Gratis 1 minuman pilihan'],
+keizai:['Voucher Rp40.000 + merchandise eksklusif Keizai','Voucher Rp25.000','Gratis 1 minuman pilihan']};
+RW.all=['Badge Top Affiliate + bonus 500 poin','Bonus 300 poin','Bonus 150 poin'];
+function parseJt(s){return parseFloat(String(s).replace('Rp','').replace(' jt','').replace(',','.'))}
+function lbData(k){
+ if(k!=='all')return LB[k];
+ const m={};
+ Object.keys(LB).forEach(id=>LB[id].rows.forEach(r=>{const o=m[r[0]]=m[r[0]]||{u:r[0],k:0,t:0,s:0,me:0};o.k+=r[1];o.t+=r[2];o.s+=parseJt(r[3]);if(r[4])o.me=1}));
+ const rows=Object.values(m).sort((a,b)=>b.t-a.t||b.s-a.s).map(o=>[o.u,o.k,o.t,'Rp'+o.s.toFixed(1).replace('.',',')+' jt',o.me]);
+ return {name:'Semua Campaign',rows};
+}
+function renderLB(k){
+ const d=lbData(k),all=k==='all';$('#lbSel').value=k;
+ const mi=d.rows.findIndex(r=>r[4]),me=d.rows[mi],rank=mi+1;
+ const bonus=all?'':(rank<=3?' Bonus poin peringkat: <b>+'+RANK_BONUS[rank-1]+' poin</b>.':'');
+ let msg;
+ if(rank===1){msg='<div class="ic">🏆</div><div><b>Selamat! Kamu telah menjadi No. 1 di '+(all?'seluruh campaign':'campaign '+d.name)+'</b><div>Kamu berhak atas reward peringkat pertama'+(all?'':' dari '+d.name)+'. Pertahankan sampai campaign berakhir!'+bonus+'</div></div>'}
+ else{const gap=d.rows[mi-1][2]-me[2]+1;msg='<div class="ic">🔥</div><div><b>Kamu di peringkat #'+rank+' pada '+(all?'seluruh campaign':'campaign '+d.name)+'</b><div>Tinggal '+gap+' transaksi lagi untuk naik ke peringkat #'+(rank-1)+' dan merebut reward utama!'+bonus+'</div></div>'}
+ $('#lbBanner').innerHTML=msg;
+ const medals=['🥇','🥈','🥉'],t3=d.rows.slice(0,3),order=[t3[1],t3[0],t3[2]],cls=['p2','p1','p3'],med=['🥈','🥇','🥉'];
+ $('#lbPodium').innerHTML='<div class="podium">'+order.map((r,i)=>'<div class="pod '+cls[i]+(r[4]?' me':'')+'"><div class="medal">'+med[i]+'</div><div class="av" style="background:'+colorOf(r[0])+'">'+esc(initials(r[0]))+'</div><div class="nm">'+esc(r[0])+'</div><div class="tx">'+r[2]+' transaksi</div>'+(r[4]?'<span class="you">KAMU</span>':'')+'</div>').join('')+'</div>';
+ $('#lbTable').innerHTML='<tr><th>Peringkat</th><th>Affiliate</th><th>Klik</th><th>Transaksi valid ★</th><th>Penjualan</th></tr>'+d.rows.map((r,i)=>'<tr class="'+(r[4]?'me':'')+'"><td>'+(medals[i]?medals[i]+' Juara '+(i+1):'#'+(i+1))+'</td><td>'+esc(r[0])+(r[4]?' (kamu)':'')+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>').join('');
+ $('#rwSub').textContent=all?'Gabungan seluruh campaign yang kamu ikuti. Total transaksimu: '+me[2]:'Reward dari '+d.name+' untuk affiliate yang aktif. Transaksimu: '+me[2];
+ $('#rwTop').innerHTML='<div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">'+(all?'HADIAH PERINGKAT GABUNGAN (akhir periode)':'REWARD JUARA (peringkat 1-3, diberikan saat campaign berakhir)')+'</div>'+RW[k].map((t,i)=>'<div class="rwrow"><span>'+medals[i]+'</span><div><b>Juara '+(i+1)+'</b><br>'+t+'</div></div>').join('');
+ if(all){
+  $('#rwMs').innerHTML='<div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">BONUS POIN PERINGKAT PER CAMPAIGN</div>'+MINE_IDS.map(id=>{const r=myRank(id);return '<div class="ms '+(r<=3?'done':'')+'"><div class="dot">'+(r<=3?'✓':'•')+'</div><div style="flex:1"><b>'+esc(cmp(id).name)+'</b>: peringkat #'+r+'<div class="muted">'+(r<=3?'+'+RANK_BONUS[r-1]+' poin bonus':'Peringkat 1-3 mendapat bonus poin')+'</div></div></div>'}).join('');
+ }else{
+  $('#rwMs').innerHTML='<div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px">REWARD MILESTONE (otomatis, tanpa harus juara)</div>'+d.ms.map(m=>{const done=me[2]>=m[0],left=m[0]-me[2];return '<div class="ms '+(done?'done':'')+'"><div class="dot">'+(done?'✓':'•')+'</div><div style="flex:1"><b>'+m[0]+' transaksi</b>: '+m[1]+(done?'<div class="muted">Tercapai, klaim di menu <a href="#reward" onclick="show(\'reward\');return false">Reward</a></div>':'<div class="muted">'+left+' transaksi lagi</div><div class="bar"><i style="width:'+Math.round(me[2]/m[0]*100)+'%"></i></div>')+'</div></div>'}).join('');
+ }
+}
+function goLB(k){show('leaderboard');renderLB(k)}
+
+/* ---------- GRAFIK EVALUASI ---------- */
+const EV={
+runa:{klik:[140,155,170,185],eng:[5.6,6.0,6.4,6.8],conv:[10.0,11.0,11.2,11.9],sales:[0.85,1.0,1.1,1.25],kons:[75,100,100,100],total:650},
+identix:{klik:[90,100,105,115],eng:[5.2,5.8,6.1,6.5],conv:[7.8,8.0,8.6,9.6],sales:[0.4,0.5,0.55,0.65],kons:[75,75,100,100],total:410},
+keizai:{klik:[40,45,50,55],eng:[5.0,5.4,5.9,6.3],conv:[7.5,8.9,10.0,10.9],sales:[0.2,0.3,0.3,0.4],kons:[50,75,75,100],total:190}
+};
+function bars(vals,fmt,color,maxv){const W=360,H=190,pl=10,pb=28,pt=22,n=vals.length;const mx=maxv||Math.max(...vals)*1.2;const bw=50,gap=(W-pl*2-bw*n)/(n+1);let s='<svg viewBox="0 0 '+W+' '+H+'" role="img">';
+for(let i=0;i<=3;i++){const y=pt+(H-pt-pb)*i/3;s+='<line x1="'+pl+'" x2="'+(W-pl)+'" y1="'+y+'" y2="'+y+'" stroke="#eceef4"/>'}
+vals.forEach((v,i)=>{const h=(H-pt-pb)*v/mx;const x=pl+gap+i*(bw+gap);const y=H-pb-h;
+s+='<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="6" fill="'+color+'" opacity="'+(0.55+0.15*i)+'"/>';
+s+='<text x="'+(x+bw/2)+'" y="'+(y-6)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#172033">'+fmt(v)+'</text>';
+s+='<text x="'+(x+bw/2)+'" y="'+(H-9)+'" text-anchor="middle" font-size="11" fill="#6f788a">Minggu '+(i+1)+'</text>'});
+return s+'</svg>'}
+function renderEval(k){const d=EV[k];const nm=LB[k].name;
+document.getElementById('cSub0').textContent=nm+': total '+d.total+' klik pada Oktober 2026';
+const WK=['Minggu 1','Minggu 2','Minggu 3','Minggu 4'];const pcf=v=>String(v).replace('.',',')+'%';const rp=v=>'Rp'+String(v).replace('.',',')+' jt';const base=a=>Math.max(0,Math.floor(Math.min(...a)-1));
+document.getElementById('c0').innerHTML=lineChart(WK,[{name:nm,color:'#6366f1',vals:d.klik}],{labels:1,fmt:v=>v+' klik'});
+document.getElementById('c1').innerHTML=lineChart(WK,[{name:nm,color:'#ec4899',vals:d.eng}],{labels:1,min:base(d.eng),fmt:pcf,yfmt:pcf});
+document.getElementById('c2').innerHTML=lineChart(WK,[{name:nm,color:'#14b8a6',vals:d.conv}],{labels:1,min:base(d.conv),fmt:pcf,yfmt:pcf});
+document.getElementById('c3').innerHTML=lineChart(WK,[{name:nm,color:'#f59e0b',vals:d.sales}],{labels:1,fmt:rp});
+document.getElementById('c4').innerHTML=lineChart(WK,[{name:nm,color:'#6366f1',vals:d.kons}],{labels:1,max:100,fmt:pcf,yfmt:pcf});
+const tx=(arr,f)=>{const a=arr[0],b=arr[arr.length-1];return (b>=a?'📈 Naik':'📉 Turun')+' dari '+f(a)+' (Minggu 1) ke '+f(b)+' (Minggu 4). '};
+const pc=v=>String(v).replace('.',',')+'%';
+document.getElementById('t0').innerHTML=tx(d.klik,v=>v+' klik')+'Klik naik karena video rutin diunggah sehingga jangkauan (reach) bertambah.';
+document.getElementById('t1').innerHTML=tx(d.eng,pc)+'Engagement naik saat hook video dan ajakan berkomentar makin baik.';
+document.getElementById('t2').innerHTML=tx(d.conv,pc)+'Conversion naik saat kode promo disebut jelas dan link mudah dibuka.';
+document.getElementById('t3').innerHTML=tx(d.sales,v=>'Rp'+String(v).replace('.',',')+' jt')+'Sales mengikuti naiknya jumlah klik dan conversion.';
+document.getElementById('t4').innerHTML=tx(d.kons,v=>v+'%')+'Minggu dengan nilai di bawah 100% berarti ada video yang belum diunggah atau tidak memenuhi brief.'}
+/* ---------- GRAFIK GARIS ---------- */
+let _lc=0;
+function niceStep(x){const p=Math.pow(10,Math.floor(Math.log10(x)));const f=x/p;return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p}
+function lineChart(labels,series,o){o=o||{};_lc++;const W=o.w||560,H=o.h||250,pl=o.pl||46,pr=18,pt=26,pb=32,n=labels.length;
+const all=series.flatMap(x=>x.vals);const mn=o.min!=null?o.min:0;const rawMax=Math.max(...all);
+let step=niceStep(Math.max((o.max!=null?o.max:rawMax)-mn,1)/4);if(o.int)step=Math.max(1,Math.round(step));
+let top;if(o.max!=null){top=o.max}else{top=mn+Math.ceil((rawMax-mn)/step-1e-9)*step;if(top-rawMax<step*0.2)top+=step}
+const X=i=>pl+(n===1?0:i*(W-pl-pr)/(n-1)),Y=v=>pt+(H-pt-pb)*(1-(v-mn)/(top-mn));
+const yf=o.yfmt||(v=>String(Math.round(v*100)/100).replace('.',','));const ff=o.fmt||yf;
+let s='<svg viewBox="0 0 '+W+' '+H+'" role="img"><defs><linearGradient id="lg'+_lc+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+series[0].color+'" stop-opacity=".25"/><stop offset="1" stop-color="'+series[0].color+'" stop-opacity="0"/></linearGradient></defs>';
+const ticks=Math.round((top-mn)/step);
+for(let k=0;k<=ticks;k++){const v=mn+k*step,y=Y(v);s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y+'" y2="'+y+'" stroke="'+(k===0?'#94a3b8':'#e2e8f0')+'"'+(k===0?'':' stroke-dasharray="3 4"')+'/><text x="'+(pl-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="#64748b">'+yf(v)+'</text>'}
+s+='<line x1="'+pl+'" x2="'+pl+'" y1="'+pt+'" y2="'+Y(mn)+'" stroke="#94a3b8"/>';
+labels.forEach((l,i)=>{s+='<line x1="'+X(i)+'" x2="'+X(i)+'" y1="'+Y(mn)+'" y2="'+(Y(mn)+4)+'" stroke="#94a3b8"/><text x="'+X(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="'+(n>5?10:11)+'" fill="#64748b">'+l+'</text>'});
+if(series.length===1){const pts=series[0].vals.map((v,i)=>X(i)+','+Y(v));s+='<polygon points="'+X(0)+','+Y(mn)+' '+pts.join(' ')+' '+X(n-1)+','+Y(mn)+'" fill="url(#lg'+_lc+')"/>'}
+series.forEach(sr=>{s+='<polyline fill="none" stroke="'+sr.color+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" points="'+sr.vals.map((v,i)=>X(i)+','+Y(v)).join(' ')+'"/>';
+ if(o.labels)sr.vals.forEach((v,i)=>{s+='<text x="'+X(i)+'" y="'+(Y(v)-10)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#172033">'+ff(v)+'</text>'})});
+const cw=n>1?(W-pl-pr)/(n-1):W-pl-pr;
+labels.forEach((l,i)=>{s+='<rect x="'+(X(i)-cw/2)+'" y="'+pt+'" width="'+cw+'" height="'+(Y(mn)-pt)+'" fill="transparent"><title>'+l+'\n'+series.map(sr=>sr.name+': '+ff(sr.vals[i])).join('\n')+'</title></rect>'});
+s+='</svg>';
+const lg=series.length>1?'<div class="legend">'+series.map(x=>'<span><i style="background:'+x.color+'"></i>'+x.name+'</span>').join('')+'</div>':'';
+return '<div class="lc">'+lg+s+'</div>'}
+
+/* ---------- GRAFIK HARI INI (dashboard) ---------- */
+const TD={labels:['08.00','10.00','12.00','14.00','16.00','18.00','20.00','22.00'],klik:[4,7,13,9,8,14,12,5],trx:[0,1,2,1,1,2,1,0]};TD.sales=TD.trx.map(v=>v*60);
+function renderToday(m,btn){m=m||'klik';if(btn){document.querySelectorAll('#todayPanel .seg button').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+const sum=a=>a.reduce((x,y)=>x+y,0);
+document.getElementById('ts1').textContent=sum(TD.klik);document.getElementById('ts2').textContent=sum(TD.trx);document.getElementById('ts3').textContent='Rp'+sum(TD.sales)+' rb';
+const cfg={klik:{c:'#6366f1',n:'Klik',f:v=>v+' klik'},trx:{c:'#ec4899',n:'Transaksi',f:v=>v+' transaksi',int:1},sales:{c:'#f59e0b',n:'Penjualan',f:v=>'Rp'+v+' rb'}}[m];
+const vals=TD[m];const mx=Math.max(...vals);const pk=TD.labels[vals.indexOf(mx)];
+document.getElementById('todayChart').innerHTML=lineChart(TD.labels,[{name:cfg.n,color:cfg.c,vals:vals}],{w:380,h:230,pl:36,labels:1,int:cfg.int,fmt:cfg.f,yfmt:m==='sales'?(v=>v):undefined});
+const cv=(sum(TD.trx)/sum(TD.klik)*100).toFixed(1).replace('.',',');
+document.getElementById('todayNote').innerHTML='⏰ Paling ramai pukul <b>'+pk+'</b> ('+cfg.f(mx)+'). Conversion hari ini <b>'+cv+'%</b>. Setiap titik adalah 2 jam; 08.00 berarti pukul 08.00-09.59.'}
+
+/* ---------- REWARD SAYA & KLAIM ---------- */
+const RWD=[
+{ic:'🥤',name:'Gratis 1 minuman signature',camp:'Runa Coffee',src:'Peringkat #1 bulan ini',st:'ready',code:'RUNA-FS-JUARA1A'},
+{ic:'🎟️',name:'Voucher Rp50.000',camp:'Runa Coffee',src:'Peringkat #1 bulan ini',st:'ready',code:'RUNA-FS-JUARA1B'},
+{ic:'🏷️',name:'Kupon diskon 15%',camp:'Runa Coffee',src:'25 transaksi',st:'claimed',code:'RUNA-FS-M25'},
+{ic:'🥤',name:'Gratis 1 minuman pilihan',camp:'Runa Coffee',src:'50 transaksi',st:'ready',code:'RUNA-FS-M50'},
+{ic:'🏷️',name:'Kupon potongan Rp10.000',camp:'Identix Coffee UNNES',src:'25 transaksi',st:'ready',code:'IDX-FS-M25'},
+{ic:'🏷️',name:'Kupon diskon 10%',camp:'Keizai Coffee',src:'15 transaksi',st:'claimed',code:'KZI-FS-M15'}];
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),3800)}
+function renderRewards(){
+document.getElementById('rwTable').innerHTML='<tr><th>Reward</th><th>Campaign</th><th>Didapat dari</th><th>Status</th><th>Klaim / Kode</th></tr>'+RWD.map((r,i)=>'<tr><td>'+r.ic+' '+r.name+'</td><td>'+r.camp+'</td><td>'+r.src+'</td><td>'+(r.st==='ready'?'<span class="badge">Siap diklaim</span>':'<span class="badge purple">Sudah diklaim</span>')+'</td><td>'+(r.st==='ready'?'<button class="primary small" onclick="claimReward('+i+')">Klaim</button>':'<span class="code">'+r.code+'</span>')+'</td></tr>').join('');
+const n=RWD.filter(r=>r.st==='ready').length;
+document.getElementById('claimTitle').innerHTML=n?'🎁 <b>'+n+' reward</b> siap diklaim':'✅ <b>Semua reward sudah diklaim</b>';
+document.getElementById('claimSub').textContent=n?'Dari Juara 1 Runa Coffee dan milestone transaksi.':'Terus kejar transaksi untuk reward berikutnya.';
+document.getElementById('claimBtn').textContent=n?'Klaim Reward →':'Lihat Reward Saya →';refreshChrome()}
+function claimReward(i){RWD[i].st='claimed';saveRwd();renderRewards();toast('Reward berhasil diklaim! Tunjukkan kode '+RWD[i].code+' ke kasir '+RWD[i].camp+'.')}
+function claimAll(){const n=RWD.filter(r=>r.st==='ready').length;if(!n){toast('Tidak ada reward yang perlu diklaim.');return}RWD.forEach(r=>r.st='claimed');saveRwd();renderRewards();toast(n+' reward berhasil diklaim. Kode reward muncul di kolom paling kanan.')}
+function goRewards(){show('reward')}
+
+/* ---------- GRAFIK PERFORMANCE ---------- */
+const PF=[
+{n:'Runa Coffee',c:'#6366f1',k:EV.runa.klik,t:[14,17,19,22],cv:EV.runa.conv},
+{n:'Identix Coffee UNNES',c:'#f97316',k:EV.identix.klik,t:[7,8,9,11],cv:EV.identix.conv},
+{n:'Keizai Coffee',c:'#14b8a6',k:EV.keizai.klik,t:[3,4,5,6],cv:EV.keizai.conv}];
+function renderPerf(){const W4=['Minggu 1','Minggu 2','Minggu 3','Minggu 4'];const tot=f=>[0,1,2,3].map(i=>PF.reduce((a,p)=>a+p[f][i],0));
+const tk=tot('k'),tt=tot('t');const tc=tk.map((k,i)=>Math.round(tt[i]/k*1000)/10);const pc=v=>String(v).replace('.',',')+'%';
+document.getElementById('pc1').innerHTML=lineChart(W4,PF.map(p=>({name:p.n,color:p.c,vals:p.k})),{fmt:v=>v+' klik'});
+document.getElementById('pc2').innerHTML=lineChart(W4,PF.map(p=>({name:p.n,color:p.c,vals:p.t})),{int:1,fmt:v=>v+' transaksi'});
+document.getElementById('pc3').innerHTML=lineChart(W4,PF.map(p=>({name:p.n,color:p.c,vals:p.cv})),{min:6,fmt:pc,yfmt:pc});
+document.getElementById('pn1').innerHTML='📈 Total semua campaign: '+tk.join(' → ')+' klik (jumlah 1.250). Semua campaign naik karena konten makin rutin dan jangkauan bertambah.';
+document.getElementById('pn2').innerHTML='📈 Total: '+tt.join(' → ')+' transaksi (jumlah 125). Transaksi ikut naik seiring bertambahnya klik.';
+document.getElementById('pn3').innerHTML='📈 Gabungan: '+tc.map(pc).join(' → ')+'. Runa Coffee paling tinggi, Identix paling rendah sehingga perlu perbaikan di promo dan CTA.'}
+
+/* ---------- DASHBOARD EXTRAS ---------- */
+const WKCLK=[270,300,325,355],WKTRX=[24,29,33,39],WKSAL=[1.45,1.8,1.95,2.3];
+let bannerHidden=false;
+function spark(vals,color){
+ const w=86,h=34,mx=Math.max(...vals),mn=Math.min(...vals),r=mx-mn||1;
+ const pts=vals.map((v,i)=>[3+(w-6)*i/(vals.length-1),h-4-(h-8)*(v-mn)/r]);
+ return '<svg viewBox="0 0 '+w+' '+h+'" aria-hidden="true"><polyline fill="none" stroke="'+color+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="'+pts.map(p=>p.join(',')).join(' ')+'"/></svg>';
+}
+function renderDashExtras(){
+ const kp=[['Total Klik Link','1.250','↑ 18,4% bulan ini',WKCLK,'#8b5cf6'],['Total Transaksi','125','↑ 12,1% bulan ini',WKTRX,'#14b8a6'],['Nilai Penjualan','Rp7,5 jt','↑ 15,8% bulan ini',WKSAL,'#f97316'],['Total Komisi','Rp750 rb','↑ 10,5% bulan ini',WKSAL,'#ec4899']];
+ $('#dashKpis').innerHTML=kp.map(k=>'<div class="card kpi"><div class="label">'+k[0]+'</div><div class="row"><div><div class="value">'+k[1]+'</div><div class="trend">'+k[2]+'</div></div>'+spark(k[3],k[4])+'</div></div>').join('');
+ const tops=MINE_IDS.filter(id=>myRank(id)===1);
+ $('#dashBanner').innerHTML=bannerHidden?'':tops.map(id=>'<div class="congrats has-x"><div class="ic">🏆</div><div><b>Selamat! Kamu telah menjadi No. 1 di campaign '+esc(cmp(id).name)+'</b><div>Reward kamu: '+esc(RW[id][0])+'. Bonus +'+RANK_BONUS[0]+' poin untuk tier kamu.</div></div><div class="go"><button class="primary small" onclick="goLB(\''+id+'\')">Lihat Leaderboard</button><button class="secondary small" onclick="show(\'reward\')">Klaim Reward</button></div><button class="x" onclick="bannerHidden=true;renderDashExtras()" aria-label="Tutup">×</button></div>').join('');
+ const list=CAMPS.filter(c=>!c.isNew).slice().sort((a,b)=>(b.joined?1:0)-(a.joined?1:0));
+ $('#dashCampaigns').innerHTML=list.map(c=>{
+  const r=c.joined?myRank(c.id):0;
+  return '<div class="campaign"><div><div class="campname">'+esc(c.name)+(c.joined?'<span class="rankchip r'+r+'">'+(r===1?'🥇':r===2?'🥈':'🥉')+' Peringkat #'+r+'</span>':'')+'</div><div class="mini">Komisi '+c.rate+'% · s/d '+c.end+'</div></div><div style="display:flex;align-items:center;gap:8px">'+(c.joined?'<button class="secondary small" onclick="openBrief(\''+c.name+'\')">📋 Brief</button>':'')+'<span class="badge '+(c.soon?'orange':'')+'">'+(c.soon?'Segera berakhir':'Aktif')+'</span></div></div>';
+ }).join('');
+ const t=tierInfo();
+ $('#dashReward').innerHTML='<div class="panelhead" style="margin-bottom:10px"><h3>🎁 Reward Saya</h3><span class="pill '+t.cur.cls+'">'+t.cur.ic+' '+t.cur.k+'</span></div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px"><b>'+nf.format(t.p)+' poin</b><span class="muted">'+(t.next?t.left+' poin ke '+t.next.k:'Tier tertinggi')+'</span></div><div class="bar"><i style="width:'+t.pct+'%"></i></div><button class="primary small" style="margin-top:14px" onclick="show(\'reward\')">Buka Reward</button>';
+}
+
+/* ---------- CAMPAIGN TABLE ---------- */
+let campFilter='Semua';
+function setCF(v){campFilter=v;renderCampaignTable()}
+function renderCampaignTable(){
+ const cats=['Semua',...new Set(CAMPS.map(c=>c.cat))];
+ $('#campFilter').innerHTML=cats.map(c=>'<button class="chip '+(c===campFilter?'on':'')+'" onclick="setCF(\''+c+'\')">'+c+'</button>').join('');
+ const rows=CAMPS.filter(c=>campFilter==='Semua'||c.cat===campFilter);
+ $('#campTable').innerHTML='<tr><th>Campaign</th><th>Brand</th><th>Komisi</th><th>Periode</th><th>Reward</th><th>Status</th><th>Aksi</th></tr>'+rows.map(c=>{
+  let st,btn='';
+  if(c.joined)st='<span class="badge purple">✓ Sedang diikuti</span>';
+  else if(pending.includes(c.id))st='<span class="badge gray">Menunggu verifikasi</span>';
+  else if(c.open){st='<span class="badge">Tersedia ('+c.quota+' kuota)</span>';btn='<button class="primary small" onclick="openModal(\''+c.id+'\')">Daftar</button>'}
+  else st='<span class="badge orange">Tidak Tersedia</span>';
+  return '<tr><td><b>'+esc(c.name)+'</b>'+(c.isNew?' <span class="badge purple">Baru</span>':'')+'<br><span class="muted">'+c.cat+'</span></td><td>'+esc(c.name)+'</td><td>'+c.rate+'%</td><td>'+c.per+'</td><td style="font-size:12px;max-width:190px">'+c.teaser+'</td><td>'+st+'</td><td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="secondary small" onclick="openBrief(\''+c.name+'\')">Lihat Brief</button>'+btn+'</div></td></tr>';
+ }).join('');
+}
+
+/* ---------- HALAMAN REWARD ---------- */
+function rwdIdx(camp,src){return RWD.findIndex(r=>r.camp===camp&&r.src===src)}
+function renderRewardPage(){
+ const el=$('#rewardBody');if(!el)return;
+ const t=tierInfo(),p=points(),rc=RWD.filter(r=>r.st==='ready').length;
+ const ladder=TIERS.map((x,i)=>'<div class="step '+(i===t.i?'now':'')+'"><div class="nm">'+x.ic+' '+x.k+(i===t.i?' <span class="badge purple" style="padding:2px 7px;font-size:10px">Kamu</span>':'')+'</div><div class="pt">'+nf.format(x.min)+'+ poin</div><div class="bf">'+x.bf+'</div></div>').join('');
+ const cardFor=(r,idx,m,c)=>{
+  const st=r?r.st:'locked',trx=myRow(c.id)[2];let ft;
+  if(st==='ready')ft='<button class="primary small" onclick="claimReward('+idx+')">Klaim Reward</button>';
+  else if(st==='claimed')ft='<div class="codebox"><span>'+r.code+'</span><button onclick="copyText(\''+r.code+'\',\'Kode '+r.code+' disalin.\')">Salin</button></div><div class="muted" style="margin-top:6px">Berlaku 30 hari sejak reward muncul</div>';
+  else ft='<div class="muted" style="margin-bottom:6px">🔒 '+Math.max(0,m[0]-trx)+' transaksi lagi</div><div class="bar"><i style="width:'+Math.min(100,trx/m[0]*100)+'%"></i></div>';
+  return '<div class="rw '+st+'"><span class="ico">'+(r?r.ic:iconOf(m[1]))+'</span><span class="tp">Milestone · '+m[0]+' transaksi</span><h4>'+esc(m[1])+'</h4><p>'+esc(c.name)+'</p><div class="ft">'+ft+'</div></div>';
+ };
+ const camps=MINE_IDS.map(id=>{
+  const c=cmp(id),list=LB[id].ms,trx=myRow(id)[2],mx=list[list.length-1][0],pct=Math.min(100,trx/mx*100),nextM=list.find(m=>trx<m[0]),rk=myRank(id);
+  const marks=list.map(m=>'<div class="mk '+(trx>=m[0]?'ok':'')+'" style="left:'+(m[0]/mx*100)+'%">'+(trx>=m[0]?'✓':'')+'<em>'+m[0]+' trx</em></div>').join('');
+  const cards=list.map(m=>{const idx=rwdIdx(c.name,m[0]+' transaksi');return cardFor(idx>=0?RWD[idx]:null,idx,m,c)}).join('');
+  return '<div class="panel mt"><div class="camphead"><div><h3>'+esc(c.name)+'</h3><div class="sub">'+trx+' transaksi · '+(nextM?'reward berikutnya di '+nextM[0]+' transaksi ('+(nextM[0]-trx)+' lagi)':'semua reward terbuka 🎉')+'</div></div><span class="rankchip r'+Math.min(rk,3)+'">Peringkat #'+rk+'</span></div><div class="track"><i style="width:'+pct+'%"></i><span class="you" style="left:'+pct+'%">Kamu: '+trx+'</span>'+marks+'</div><div class="rwgrid">'+cards+'</div></div>';
+ }).join('');
+ const juara=RWD.map((r,i)=>[r,i]).filter(x=>x[0].src.indexOf('Peringkat')===0);
+ const juaraHtml=juara.length?'<div class="panel mt"><div class="panelhead"><div><h3>🏆 Reward Juara</h3><div class="sub">Reward untuk peringkat teratas di campaign. Bersifat kompetitif, di luar milestone.</div></div></div><div class="rwgrid">'+juara.map(x=>{const r=x[0],i=x[1];return '<div class="rw '+r.st+'"><span class="ico">'+r.ic+'</span><span class="tp">'+esc(r.src)+'</span><h4>'+esc(r.name)+'</h4><p>'+esc(r.camp)+'</p><div class="ft">'+(r.st==='ready'?'<button class="primary small" onclick="claimReward('+i+')">Klaim Reward</button>':'<div class="codebox"><span>'+r.code+'</span><button onclick="copyText(\''+r.code+'\',\'Kode '+r.code+' disalin.\')">Salin</button></div>')+'</div></div>'}).join('')+'</div></div>':'';
+ const wallet=RWD.filter(r=>r.st==='claimed');
+ const walletHtml=wallet.length?wallet.map(r=>'<div class="ticket"><div class="ico">'+r.ic+'</div><div class="info"><div style="font-weight:700;font-size:13.5px">'+esc(r.name)+'</div><div class="muted">'+esc(r.camp)+' · '+esc(r.src)+'</div></div><div class="codebox"><span>'+r.code+'</span><button onclick="copyText(\''+r.code+'\',\'Kode '+r.code+' disalin.\')">Salin</button></div></div>').join(''):'<div class="muted">Belum ada kupon. Klaim reward pertamamu!</div>';
+ const explore=CAMPS.filter(c=>!c.joined&&c.open).map(c=>'<div style="border:1px solid var(--line);border-radius:14px;padding:14px"><div style="font-weight:700;font-size:13.5px">'+esc(c.name)+(c.isNew?' <span class="badge purple">Baru</span>':'')+'</div><div class="muted" style="margin:4px 0 10px">Komisi '+c.rate+'% · '+c.cat+'</div><div style="font-size:13px;margin-bottom:12px">'+c.teaser+'</div>'+(pending.includes(c.id)?'<span class="badge gray">Menunggu verifikasi</span>':'<button class="secondary small" onclick="openModal(\''+c.id+'\')">Ikuti campaign</button>')+'</div>').join('');
+ el.innerHTML='<div class="tierhero"><div class="tiercard"><span class="tierchip">'+t.cur.ic+' '+t.cur.k+' Member</span><div class="big">'+nf.format(t.p)+' poin</div><small>'+(t.next?t.left+' poin lagi untuk naik ke <b>'+t.next.k+'</b>':'Kamu sudah di tier tertinggi')+'</small><div class="bar"><i style="width:'+t.pct+'%"></i></div><small>'+(rc?'🎁 '+rc+' reward siap diklaim · ':'')+'Reward dan fasilitas khusus dari brand penyelenggara, di luar komisi.</small></div>'+
+ '<div class="panel"><h3 style="margin-bottom:4px">Cara dapat poin</h3><div class="sub" style="margin-bottom:12px">Poin menentukan tier (Bronze → Platinum).</div>'+
+ '<div class="rankrow"><div style="flex:1;font-size:13px">Transaksi ('+p.trxN+' × 10 poin)</div><b>'+nf.format(p.trx)+'</b></div>'+
+ '<div class="rankrow"><div style="flex:1;font-size:13px">Repeat order ('+REPEAT_ORDER+' × 5 poin)</div><b>'+nf.format(p.repeat)+'</b></div>'+
+ '<div class="rankrow"><div style="flex:1;font-size:13px">Bonus peringkat leaderboard (#1 +250 · #2 +150 · #3 +75)</div><b>'+nf.format(p.bonus)+'</b></div>'+
+ '<div class="rankrow"><div style="flex:1;font-size:13px;font-weight:700">Total poin</div><b style="color:var(--accent)">'+nf.format(p.total)+'</b></div></div></div>'+
+ '<div class="panel mt"><div class="panelhead"><div><h3>Tier Keanggotaan</h3><div class="sub">Makin tinggi tier, makin besar fasilitas yang kamu dapat.</div></div></div><div class="ladder">'+ladder+'</div></div>'+
+ '<div class="panel mt"><h3>Jenis reward yang bisa didapat</h3><div class="earn" style="margin-top:14px"><div class="e"><span style="font-size:24px">🏷️</span><b>Kupon &amp; potongan</b><span class="d">Diskon atau potongan harga untuk pembelian pribadi di gerai brand.</span></div><div class="e"><span style="font-size:24px">🥤</span><b>Makanan/minuman gratis</b><span class="d">Gratis minuman atau 1 porsi di kelipatan transaksi tertentu.</span></div><div class="e"><span style="font-size:24px">🤝</span><b>Kunjungan eksklusif</b><span class="d">Undangan tasting dan mencoba menu baru di kafe.</span></div><div class="e"><span style="font-size:24px">🎟️</span><b>Voucher &amp; merchandise</b><span class="d">Voucher makan-minum dan merchandise brand untuk juara.</span></div></div></div>'+
+ juaraHtml+'<div style="margin-top:22px"><div style="font-size:16px;font-weight:700">Reward Milestone per Campaign</div></div>'+camps+
+ '<div class="grid" style="grid-template-columns:1fr 1fr"><div class="panel"><div class="panelhead"><h3>Kupon Saya</h3><span class="badge purple">'+wallet.length+' kupon</span></div>'+walletHtml+'</div><div class="panel"><div class="panelhead"><div><h3>Reward Campaign Lain</h3><div class="sub">Ikuti lebih banyak campaign untuk membuka fasilitas baru.</div></div></div><div style="display:grid;gap:10px">'+explore+'</div></div></div>';
+}
+
+/* ---------- EVALUASI: SKOR 0-100 PER INDIKATOR ---------- */
+const WK4=['Minggu 1','Minggu 2','Minggu 3','Minggu 4'];
+const PREV_SCORE=81;
+const IND=[
+ {k:'eng',name:'Engagement',w:.25,color:'#ec4899',sc:[77,83,88,92],tip:'Ajak audiens berinteraksi: tanya pendapat di akhir video dan balas komentar dalam 1 jam pertama.'},
+ {k:'conv',name:'Conversion',w:.30,color:'#14b8a6',sc:[82,86,90,94],tip:'Taruh kode promo dan ajakan beli (CTA) di awal caption, bukan di akhir. Sebut manfaat reward-nya.'},
+ {k:'sales',name:'Sales',w:.30,color:'#f59e0b',sc:[84,88,92,96],tip:'Buat konten menu paket/bundling atau promo akhir pekan agar nilai tiap transaksi naik tanpa menambah klik.'},
+ {k:'cons',name:'Konsistensi Konten',w:.15,color:'#6366f1',sc:[70,80,85,93],tip:'Buat kalender konten 1 bulan dan siapkan stok video cadangan agar minggu pertama tidak kosong.'}
+];
+IND.forEach(i=>{i.avg=mean(i.sc);i.pts=i.avg*i.w});
+const TOTAL=IND.reduce((a,i)=>a+i.pts,0);
+const WEEKLY_TOTAL=WK4.map((_,j)=>IND.reduce((a,i)=>a+i.w*i.sc[j],0));
+let visible=new Set(['eng','conv','sales','cons','tot']);
+const smooth=pts=>{let d='M'+pts[0][0]+','+pts[0][1];for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2,t=.17;d+=' C'+(p1[0]+(p2[0]-p0[0])*t)+','+(p1[1]+(p2[1]-p0[1])*t)+' '+(p2[0]-(p3[0]-p1[0])*t)+','+(p2[1]-(p3[1]-p1[1])*t)+' '+p2[0]+','+p2[1]}return d};
+function toggleSeries(k){
+ if(visible.has(k)){if(visible.size>1)visible.delete(k)}else visible.add(k);
+ renderEvalExtra();
+}
+function scoreChart(){
+ const box=$('#scoreChart');if(!box)return;
+ const W=Math.max(300,Math.floor(box.clientWidth)||640),sm=W<520,H=sm?260:330,pl=sm?36:46,pr=sm?14:26,pt=26,pb=40,min=50,max=100;
+ const n=WK4.length,x=i=>pl+(W-pl-pr)*(.07+.86*i/(n-1)),y=v=>pt+(H-pt-pb)*(1-(v-min)/(max-min));
+ const series=IND.map(i=>({k:i.k,name:i.name,color:i.color,v:i.sc})).concat([{k:'tot',name:'Skor Total',color:'#8b5cf6',v:WEEKLY_TOTAL,bold:true}]);
+ let s='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Grafik skor 4 indikator per minggu"><defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".30"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient><clipPath id="cp"><rect x="'+pl+'" y="'+(pt-8)+'" width="'+(W-pl-pr)+'" height="'+(H-pt-pb+8)+'"/></clipPath></defs>';
+ s+='<rect x="'+pl+'" y="'+y(100)+'" width="'+(W-pl-pr)+'" height="'+(y(85)-y(100))+'" fill="#20a779" opacity=".09" rx="8"/><text x="'+(pl+10)+'" y="'+(y(100)+15)+'" font-size="10" font-weight="700" fill="#16875f" letter-spacing=".05em">ZONA EXCELLENT · SKOR ≥ 85</text>';
+ for(let t=min;t<=max;t+=10){s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke="#eceef4"'+(t===min?'':' stroke-dasharray="3 5"')+'/><text x="'+(pl-9)+'" y="'+(y(t)+4)+'" text-anchor="end" font-size="11" fill="#9aa2b3">'+t+'</text>'}
+ WK4.forEach((w,i)=>{s+='<text x="'+x(i)+'" y="'+(H-14)+'" text-anchor="middle" font-size="12" font-weight="600" fill="#5b6475">'+(sm?'Mgg '+(i+1):w)+'</text>'});
+ s+='<g id="scHl"></g><g clip-path="url(#cp)">';
+ const vis=series.filter(z=>visible.has(z.k)),tot=vis.find(z=>z.k==='tot');
+ if(tot){const pts=tot.v.map((v,i)=>[x(i),y(v)]);s+='<path d="'+smooth(pts)+' L'+x(n-1)+','+y(min)+' L'+x(0)+','+y(min)+' Z" fill="url(#gA)"/>'}
+ vis.filter(z=>!z.bold).forEach(z=>{const pts=z.v.map((v,i)=>[x(i),y(v)]);s+='<path d="'+smooth(pts)+'" fill="none" stroke="'+z.color+'" stroke-width="2.2" stroke-linecap="round" opacity=".88"/>'});
+ if(tot){const pts=tot.v.map((v,i)=>[x(i),y(v)]);s+='<path d="'+smooth(pts)+'" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/>'}
+ s+='</g>';
+  if(tot)tot.v.forEach((v,i)=>{s+='<text x="'+x(i)+'" y="'+(y(v)-12)+'" text-anchor="middle" font-size="13" font-weight="800" fill="#2e1065">'+Math.round(v)+'</text>'});
+ const cw=(W-pl-pr)/n;
+ WK4.forEach((w,i)=>{s+='<rect class="hit" data-i="'+i+'" x="'+(pl+cw*i)+'" y="'+(pt-8)+'" width="'+cw+'" height="'+(H-pt-pb+8)+'" fill="transparent"/>'});
+ s+='</svg>';
+ box.innerHTML=s+'<div class="tip" id="scTip"></div>';
+ const tip=$('#scTip'),hl=box.querySelector('#scHl');
+ box.querySelectorAll('.hit').forEach(r=>{
+  const showTip=()=>{
+   const i=+r.dataset.i;
+   tip.innerHTML='<b>'+WK4[i]+'</b>'+vis.map(z=>'<div><i style="background:'+z.color+'"></i>'+z.name+'<span>'+Math.round(z.v[i])+'%</span></div>').join('');
+   const half=tip.offsetWidth/2||70;tip.style.left=Math.min(W-half-4,Math.max(half+4,x(i)))+'px';tip.classList.add('on');
+   hl.innerHTML='<rect x="'+(pl+cw*i+4)+'" y="'+(pt-8)+'" width="'+(cw-8)+'" height="'+(H-pt-pb+8)+'" rx="10" fill="#8b5cf6" opacity=".06"/>';
+  };
+  r.addEventListener('pointerenter',showTip);r.addEventListener('pointermove',showTip);r.addEventListener('click',showTip);
+  r.addEventListener('pointerleave',()=>{tip.classList.remove('on');hl.innerHTML=''});
+ });
+}
+function renderEvalExtra(){
+ const sc=Math.round(TOTAL);
+ const segs=IND.map(i=>'<i style="width:'+i.pts+'%;background:'+i.color+'" title="'+i.name+': '+i.pts.toFixed(1)+' poin">'+(i.pts>=8?i.pts.toFixed(1).replace('.',','):'')+'</i>').join('');
+ $('#evTop').innerHTML='<div class="panel" style="margin-bottom:18px"><div class="evalhead"><div class="score"><div class="ring" style="--p:'+sc+'"><span>'+sc+'</span></div><b>Excellent Performance</b><div class="muted" style="margin-top:4px">dari 100 · ↑ '+(sc-PREV_SCORE)+' poin vs bulan lalu</div></div><div><h3>Dari mana skor '+sc+' berasal?</h3><div class="sub">Skor akhir adalah gabungan 4 indikator yang dikali bobotnya. Tiap indikator dinilai 0–100 dengan membandingkan capaianmu terhadap target campaign.</div><div class="contrib">'+segs+'<i style="width:'+(100-TOTAL)+'%;background:#ececf4;color:#8a93a5">'+(100-TOTAL).toFixed(0)+'</i></div><div class="lg2">'+IND.map(i=>'<span><b style="background:'+i.color+'"></b>'+i.name+' '+i.pts.toFixed(2).replace('.',',')+'</span>').join('')+'<span><b style="background:#ececf4"></b>Belum tercapai</span></div><div class="fbox">🧮 <div><b>Rumus:</b> skor indikator = capaian ÷ target × 100 (maks. 100). <b>Skor akhir</b> = '+IND.map(i=>Math.round(i.w*100)+'% × '+Math.round(i.avg)).join(' + ')+' = <b>'+TOTAL.toFixed(2).replace('.',',')+' ≈ '+sc+'</b></div></div></div></div></div>';
+ const w1=Math.round(WEEKLY_TOTAL[0]),w4=Math.round(WEEKLY_TOTAL[3]);
+ const chips=IND.map(i=>[i.k,i.name,i.color,i.sc[3]]).concat([['tot','Skor Total','#8b5cf6',WEEKLY_TOTAL[3]]]).map(z=>'<button class="sw '+(visible.has(z[0])?'':'off')+'" onclick="toggleSeries(\''+z[0]+'\')"><span class="dot" style="background:'+z[2]+'"></span>'+z[1]+'<em>'+Math.round(z[3])+'%</em></button>').join('');
+ $('#evMid').innerHTML='<div class="panel" style="margin-top:18px"><div class="panelhead"><div><h3>Grafik Skor 4 Indikator (Gabungan Semua Campaign)</h3><div class="sub">Oktober 2026. Arahkan kursor/ketuk tiap minggu untuk detail. Klik nama indikator untuk menampilkan/menyembunyikan garis. Angka = skor 0–100 terhadap target.</div></div></div><div class="mstats"><div class="mstat"><span>Minggu 1</span><b>'+w1+'</b></div><div class="mstat"><span>Minggu 4</span><b>'+w4+'</b></div><div class="mstat hi"><span>Peningkatan</span><b>+'+(w4-w1)+' poin</b></div><div class="mstat"><span>Skor bulan ini</span><b>'+sc+'</b></div></div><div class="legendbar">'+chips+'</div><div class="chartwrap" id="scoreChart"></div></div>';
+ const best=IND.slice().sort((a,b)=>b.avg-a.avg)[0],weak=IND.slice().sort((a,b)=>a.avg-b.avg).slice(0,3);
+ const rows=IND.map(i=>'<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+i.color+';margin-right:8px"></span><b>'+i.name+'</b></td>'+i.sc.map(v=>'<td>'+v+'</td>').join('')+'<td><b>'+Math.round(i.avg)+'</b></td><td>'+Math.round(i.w*100)+'%</td><td>'+i.pts.toFixed(2).replace('.',',')+'</td></tr>').join('')+'<tr class="total" style="font-weight:800"><td>Skor Total (tertimbang)</td>'+WEEKLY_TOTAL.map(v=>'<td>'+Math.round(v)+'</td>').join('')+'<td style="color:var(--accent)">'+sc+'</td><td>100%</td><td>'+TOTAL.toFixed(2).replace('.',',')+'</td></tr>';
+ $('#evBot').innerHTML='<div class="panel" style="margin-top:18px"><div class="panelhead"><div><h3>Tabel Detail Skor per Minggu</h3><div class="sub">Skor 0–100 tiap indikator, dirata-ratakan ke nilai bulanan di tabel perhitungan di atas.</div></div></div><div style="overflow-x:auto"><table class="table"><tr><th>Indikator</th>'+WK4.map(w=>'<th>'+w+'</th>').join('')+'<th>Rata-rata</th><th>Bobot</th><th>Kontribusi</th></tr>'+rows+'</table></div></div>'+
+ '<div class="panel" style="margin-top:18px"><h3>Hasil Evaluasi Terakhir</h3><p class="sub" style="font-size:13px;margin-top:8px">Skor naik dari <b>'+PREV_SCORE+'</b> menjadi <b>'+sc+'</b>. Semua indikator menunjukkan tren naik dari Minggu 1 ke Minggu 4. Indikator terkuat: <b>'+best.name+'</b> ('+Math.round(best.avg)+'%).</p></div>'+
+ '<div class="panel" style="margin-top:18px"><div class="panelhead"><div><h3>Rekomendasi untuk Menaikkan Skor</h3><div class="sub">Disusun dari indikator dengan skor paling rendah.</div></div></div><div class="tips">'+weak.map(i=>'<div class="tipc"><b style="color:'+i.color+'">'+i.name+' · '+Math.round(i.avg)+'%</b><span>'+i.tip+'</span></div>').join('')+'</div></div>';
+ scoreChart();
+}
+let _rz;window.addEventListener('resize',()=>{clearTimeout(_rz);_rz=setTimeout(()=>{if(cur==='evaluation')scoreChart()},150)});
+
+/* ---------- PROFIL ---------- */
+function renderProfileTop(){
+ const el=$('#profileTop');if(!el)return;
+ const t=tierInfo(),tt=points().trxN,rc=RWD.filter(r=>r.st==='ready').length,active=RWD.filter(r=>r.st==='claimed').length;
+ const all=lbData('all'),allRank=all.rows.findIndex(r=>r[4])+1;
+ const B=[
+  {e:'🏆',n:'Top Seller Runa Coffee',d:'Peringkat #1 di Runa Coffee',on:myRank('runa')===1},
+  {e:'💯',n:'Klub 100 Transaksi',d:tt>=100?tt+' transaksi tercapai':'Capai 100 transaksi',on:tt>=100},
+  {e:'🎯',n:'Conversion 10%+',d:'Rasio konversi ≥ 10%',on:tt/1250>=.1},
+  {e:'📈',n:'Skor Excellent',d:'Performance score ≥ 85',on:Math.round(TOTAL)>=85},
+  {e:'💎',n:'Platinum Rising',d:t.next?t.left+' poin lagi ke Platinum':'Tier Platinum',on:t.cur.k==='Platinum'},
+  {e:'👑',n:'Top 1 Semua Campaign',d:allRank===1?'Peringkat #1 gabungan':'Kurang '+(all.rows[0][2]-tt+1)+' transaksi dari #1',on:allRank===1}
+ ];
+ const rows=[['Nama','<b>'+esc(PROFILE.name)+'</b>'],['Username','@foodie_semarang'],['Platform',esc(PROFILE.platform)],['Niche','Food &amp; Beverage'],['Followers',nf.format(PROFILE.followers)],['Average Views',nf.format(PROFILE.views)],['Engagement Rate','6,2%'],['Domisili',esc(PROFILE.city)],['Status Verifikasi','<span class="badge">Terverifikasi</span>']];
+ el.innerHTML='<div class="panel"><div class="panelhead"><div class="profilehead"><div class="avatar">'+esc(initials(PROFILE.name))+'</div><div><h3 style="font-size:20px">'+esc(PROFILE.name)+'</h3><div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill '+t.cur.cls+'">'+t.cur.ic+' '+t.cur.k+' Member</span><span class="pill">'+nf.format(t.p)+' poin</span><span class="badge">Kerja sama aktif</span></div></div></div><button class="primary" onclick="openProfileModal()">Edit Profil</button></div></div>'+
+ '<div class="grid" style="grid-template-columns:1fr 1fr"><div class="panel"><h3 style="margin-bottom:8px">Profil Affiliate</h3><table class="table">'+rows.map(r=>'<tr><td class="muted" style="width:42%">'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</table></div>'+
+ '<div class="stack"><div class="panel"><div class="panelhead"><h3>Pencapaian &amp; Badge</h3><span class="badge purple">'+B.filter(b=>b.on).length+'/'+B.length+'</span></div><div class="badges">'+B.map(b=>'<div class="bdg '+(b.on?'':'locked')+'"><span class="e">'+b.e+'</span><b>'+b.n+'</b><span class="d">'+b.d+'</span></div>').join('')+'</div></div>'+
+ '<div class="panel"><div class="panelhead"><h3>Fasilitas Aktif</h3></div><div style="font-size:13px;line-height:1.9">'+t.cur.ic+' <b>'+t.cur.k+'</b> — '+t.cur.bf+'<br>🎁 '+rc+' reward siap diklaim<br>🎟️ '+active+' kupon aktif di dompetmu</div><button class="secondary small" style="margin-top:12px" onclick="show(\'reward\')">Buka Reward</button></div></div></div>';
+ $('#topAvatar').textContent=initials(PROFILE.name);
+ document.querySelectorAll('.nameFill').forEach(e=>{e.textContent=PROFILE.name});
+}
+
+loadRwd();
+renderLB('runa');renderEval('runa');renderToday('klik');renderRewards();renderPerf();
+show(location.hash.slice(1)||'dashboard');
+</script>
+</body>
+</html>
